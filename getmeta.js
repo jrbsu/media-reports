@@ -20,12 +20,15 @@ $(function(){
 			var fetchURL = this;
 			var newURL = fetchURL.replace(reHTTP, "");
 			var websiteName = newURL.replace(website, "").replace(trim, "");
-			console.log("http://textance.herokuapp.com/title/"+newURL);
+			console.log("https://textance.herokuapp.com/title/"+newURL);
 			$.ajax({
-      			url: "http://textance.herokuapp.com/title/"+encodeURIComponent(newURL),
+      			url: "http://api.embed.ly/1/extract?key=6e7f14bd554242fd839bf537052a64b3&url="+encodeURIComponent(newURL)"&format=json",
       			complete: function(data) {
-        			var title = data.responseText;
-					tr.append("<div id='section"+i+"'><span class='sectiontitle'>SECTIONTITLE</span><br/>" + websiteName + " - " + data.responseText + "<br />");
+      				var json = JSON.parse(data);
+        			var title = json.title;
+        			var description = json.description;
+        			var provider = json.provider_name;
+					tr.append("<div id='section"+i+"'><span class='sectiontitle'>SECTIONTITLE</span><br/>" + provider + " - " + title + "<br />");
 					tr.append(fetchURL + "<br/><ul id='list"+i+"'><li>QUOTE</li></ul><br/></div>");
 					$('#toggles').append("<span id='toggle"+i+"'><a href='#'>"+i+"</a></span> / ");
 					i = i+1;
