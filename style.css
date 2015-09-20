@@ -1,0 +1,15 @@
+#results {
+	font-weight: 400;
+	position:relative;
+	font-size:10px;
+	padding: 1em;
+}
+
+.sectiontitle {
+	font-weight: 600;
+}
+
+.date {
+	color:#CE0000;
+	font-weight: 600;
+}
