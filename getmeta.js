@@ -22,7 +22,7 @@ $(function(){
 			var websiteName = newURL.replace(website, "").replace(trim, "");
 			console.log("https://textance.herokuapp.com/title/"+newURL);
 			$.ajax({
-      			url: "http://api.embed.ly/1/extract?key=6e7f14bd554242fd839bf537052a64b3&url="+encodeURIComponent(newURL)"&format=json",
+      			url: "http://api.embed.ly/1/extract?key=6e7f14bd554242fd839bf537052a64b3&url="+encodeURIComponent(newURL)+"&format=json",
       			complete: function(data) {
       				var json = JSON.parse(data);
         			var title = json.title;
