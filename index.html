@@ -3,21 +3,33 @@
 <head>
 	<title>Media Report simplifier</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 	<script src="getmeta.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
 	<div id="dataEntry" style="float:right;">
-		<textarea name="urls" style="height: 300px; width:200px; overflow: auto;">www.bbc.co.uk</textarea>
+		<textarea name="urls" style="height: 400px; width:200px; overflow: auto;"></textarea>
 		<div style="margin-top: 10px; width:200px;">
-			Paste your urls here!
+			Paste your urls here &uarr;
 		</div>
 		<button id="go">Go!</button>
-		<button onclick="SelectText(results)">Select and copy to clipboard</button>
+		<button onclick="SelectText()">Select and copy to clipboard</button><br/>
+        <button id="clearToggles">Clear toggles</button><br/>
+        <textarea id="date-entry" name="date-entry" style="height: 30px; width:200px; overflow: none;"></textarea><br/>
+        <button id="add-date">Add date</button>
 	</div>
 	<div style="padding:1em; background:#fff0f0;display:none;">
 		<div id="toggles">Toggle: </div>
 	</div>
-	<div id="results"></div>
+	<div id="results-wrapper">
+        <h2 id="header">Wikimedia Foundation Media Report: </h2>
+        <h3 id="description" contenteditable="true"></h3>
+        <div id="results">
+            <ul id="resultlist">
+            </ul>
+        </div>
+    </div>
 </body>
 </html>

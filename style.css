@@ -1,10 +1,3 @@
-#results {
-	font-weight: 400;
-	position:relative;
-	font-size:10px;
-	padding: 1em;
-}
-
 .sectiontitle {
 	font-weight: 600;
 }
@@ -12,4 +5,104 @@
 .date {
 	color:#CE0000;
 	font-weight: 600;
+}
+
+body {
+    font-family: "Arial", sans-serif;
+}
+
+h2 {
+    font-weight: 400;
+    padding: 0;
+    margin: 0;
+}
+
+textarea {
+    background: #ddd;
+    border: none;
+}
+
+textarea:hover {
+    background: #fff;
+}
+
+h3 {
+    font-weight: 300;
+    margin: 0;
+    padding: 0;
+}
+
+#resultlist {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+}
+
+#resultlist li {
+    background-color: #eee;
+    padding: 0;
+}
+
+.related {
+    text-decoration: underline;
+}
+
+.hidden {
+    display: none;
+}
+
+.toggle {
+    color: lawngreen;
+	cursor: pointer;
+}
+
+.toggle:hover {
+    color: yellow;
+}
+
+.indent {
+    padding-left: 1em!important;
+}
+#results-wrapper {
+	font-weight: 400;
+	position: relative;
+	font-size: 11.5px;
+	padding: 1em;
+    width: 50%;
+}
+
+.remove-header {
+    color: orchid;
+}
+
+#date-entry {
+    color: #CE0000;
+    font-weight: 600;
+}
+
+button {
+	background-color: #666;
+	-moz-border-radius: 42px;
+	-webkit-border-radius: 42px;
+	border-radius: 42px;
+	display: inline-block;
+	cursor: pointer;
+	color: #ffffff;
+	font-weight: bold;
+	padding: 5px 10px;
+	text-decoration: none;
+}
+    
+button:hover {
+	background-color: #ff0!important;
+    color: black;
+}
+    
+button:active {
+	position: relative;
+	top: 1px;
+}
+
+#go {
+    background: #0c0;
 }
