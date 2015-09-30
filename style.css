@@ -5,6 +5,7 @@
 .date {
 	color:#CE0000;
 	font-weight: 600;
+    background: #ddd;
 }
 
 body {
@@ -39,21 +40,23 @@ h3 {
     padding: 0;
 }
 
-#resultlist li {
-    padding: 0;
+li {
+    border: 0px solid black;
+    padding: 0.3em;
 }
 
 #resultlist li.meta {
-    padding: 0;
-    border-top: 1px solid black;
-    background: rgba(254,254,254,1);
-background: -moz-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
-background: -webkit-gradient(left top, right top, color-stop(0%, rgba(254,254,254,1)), color-stop(100%, rgba(255,166,166,1)));
-background: -webkit-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
-background: -o-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
-background: -ms-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
-background: linear-gradient(to right, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
-filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#ffa6a6', GradientType=1 );
+    
+}
+
+.quote {
+    list-style-type: circle;
+    border: none;
+    padding-left: 1em;
+}
+
+.quote::before {
+    content: 33;
 }
 
 .related {
@@ -69,12 +72,12 @@ filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', end
 }
 
 .toggle {
-    color: lawngreen;
+    background: lawngreen;
 	cursor: pointer;
 }
 
 .toggle:hover {
-    color: yellow;
+    background: yellow;
 }
 
 .indent {
