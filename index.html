@@ -10,26 +10,45 @@
 </head>
 <body>
 	<div id="dataEntry" style="float:right;">
-		<textarea name="urls" style="height: 400px; width:200px; overflow: auto;"></textarea>
-		<div style="margin-top: 10px; width:200px;">
-			Paste your urls here &uarr;
+        <div id="instructions" style="margin: 10px 0; width:200px;">
+			Paste your urls here &darr;
 		</div>
-		<button id="go">Go!</button>
-		<button onclick="SelectText()">Select and copy to clipboard</button><br/>
-        <button id="clearToggles">Clear toggles</button><br/>
-        <textarea id="date-entry" name="date-entry" style="height: 30px; width:200px; overflow: none;"></textarea><br/>
-        <button id="add-date">Add date</button>
-	</div>
-	<div style="padding:1em; background:#fff0f0;display:none;">
-		<div id="toggles">Toggle: </div>
+		<textarea name="urls" style="height: 400px; width:200px; overflow: auto;"></textarea>
+        <div class="buttons" style="text-align: center;">
+            <button id="go">Go!</button>
+            <button onclick="SelectText()">Copy to clipboard</button><br/>
+            <button id="clean">Clean up</button>
+            <button id="help">Help</button>
+        </div>
+        <input type="text" id="date-entry">
+        <div class="buttons">
+            <button id="add-date">Add date</button>
+        </div>
 	</div>
 	<div id="results-wrapper">
-        <h2 id="header">Wikimedia Foundation Media Report: </h2>
+        <h2 id="header">Wikimedia Foundation Media Report:&nbsp;</h2>
         <h3 id="description" contenteditable="true"></h3>
         <div id="results">
             <ul id="resultlist">
             </ul>
         </div>
+    </div>
+    <div class="helpbox hidden">
+        <h2>How to use this tool</h2>
+        <ol>
+            <li class="helpitem">Open the relevant articles from your Google Alerts in new tabs as usual.</li>
+            <li class="helpitem">Use an extension such as <a href="https://chrome.google.com/webstore/detail/copy-all-urls/djdmadneanknadilpjiknlnanaolmbfk?hl=en" target="_blank" title="Copy All URLs">Copy All URLs</a> to get all news items' URLs onto your clipboard, and paste them into the grey box. Hit <strong>Go!</strong></li>
+            <li class="helpitem">Once they're done processing, drag them around into the order you need, and edit the section titles to suit.</li>
+            <li class="helpitem">Hit the green <strong>toggle</strong> button to format the story into a "<u>Related Stories</u>" section.</li>
+            <li class="helpitem">If you need to add new dates, use the <strong>add date</strong> tool at the bottom right. They're also draggable!</li>
+            <li class="helpitem">Once you're done, click <strong>clean up</strong> to eliminate the "toggle" switches and duplicated "<u>Related Stories</u>" headers.</li>
+            <li class="helpitem">Remember to add a summary at the top, under the main heading.</li>
+            <li class="helpitem">Finally, click <strong>copy to clipboard</strong> to select and copy the whole report. Paste that into your email, add a suject and recipients, and you're done! :D</li>
+        </ol><br />
+        <strong>Known bugs:</strong>
+        <p>If your titles are coming through as "undefined", please use Chrome (or any browser that isn't IE, Edge, or Firefox. This is a known bug that I'll hopefully fix some day. :)</p>
+        <p>Right now, the URLs are processed in no particular order. I don't know why this is, but since the UI allows you to drag them around hopefully this won't be an issue. Working on fixing it anyways.</p>
+        <em>Click anywhere to close this box.</em>
     </div>
 </body>
 </html>

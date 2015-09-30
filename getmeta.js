@@ -15,36 +15,52 @@ $(function () {
         i = 0,
         now = new Date(),
         monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
+        dayNumbers = [31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30],
         date = parseInt(now.getDate(), 10),
         yesterday = monthNames[now.getMonth()] + " " + (date - 1),
         today = monthNames[now.getMonth()] + " " + date;
+    if (date - 1 === 0) {
+        yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
+    }
     
-    $('textarea[name="date-entry"]').append(today);
+    $('#date-entry').datepicker({ dateFormat: "MM d" });
+    $('#date-entry').datepicker("setDate", today);
     
     $('#resultlist').on('click', '.toggle', function () {
         $(this).parent('li').find('.sectiontitle').toggleClass('hidden');
         $(this).parent('li').find('.related').toggleClass('hidden');
+        $(this).parent('li').toggleClass('isrelated');
         $(this).parent('li').toggleClass('indent');
     });
     
-    $('#clearToggles').click(function () {
-        $('.toggle').addClass('hidden');
-        $('.remove-header').addClass('hidden');
+    $('#clean').click(function () {
+        $('li').each(function () {
+            if ($(this).prev().hasClass('isrelated')) {
+                $(this).find('.related').remove();
+            }
+        });
+        $('.toggle').remove();
+        $('.meta').css({"background": "white", "border": "none"});
     });
     
     $('#add-date').click(function () {
-        var newDate = $('textarea[name="date-entry"]').val();
+        var newDate = $('#date-entry').val();
         $('#resultlist').append("<li class='date'>" + newDate + "<br/><br/></li>");
+    });
+    
+    $('#help').click(function () {
+        $('.helpbox').removeClass('hidden');
+    });
+    
+    $('.helpbox').click(function () {
+        $('.helpbox').addClass('hidden');
     });
 
 	$('#go').click(function () {
         //inits
         //$('#results').html('<span class="date"></span><ul id="resultlist"></ul>');
-        $('h2').html('Wikimedia Foundation Media Report: ');
+        $('h2').html('Wikimedia Foundation Media Report:&nbsp;');
         $('h3').html('');
-        if (date === 0) {
-            alert("Remember to manually change the date.");
-        }
         
         $('#header').append(monthNames[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear());
         var descriptionText = $('textarea[name="desc"]').val();
@@ -60,7 +76,7 @@ $(function () {
                     url: "http://textance.herokuapp.com/title/" + encodeURIComponent(newURL),
                     complete: function (data) {
                         var title = data.responseText;
-                        $('#resultlist').append("<li id='section" + i + "' class='withTitle'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE</span><span class='related hidden'>Related Stories:</span><br/><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + data.responseText + "</span><br />" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /></li>");
+                        $('#resultlist').append("<li id='section" + i + "' class='meta'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + data.responseText + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /></li>");
                         i = i + 1;
                     }
                 });
@@ -70,7 +86,7 @@ $(function () {
 
 function SelectText() { //this code from https://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
     "use strict";
-    $('.toggle').addClass('hidden');
+    $('.toggle').remove();
     var doc = document,
         text = doc.getElementById('results-wrapper'),
         range,

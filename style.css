@@ -19,7 +19,7 @@ h2 {
 
 textarea {
     background: #ddd;
-    border: none;
+    border: 1px solid #ccc;
 }
 
 textarea:hover {
@@ -30,6 +30,7 @@ h3 {
     font-weight: 300;
     margin: 0;
     padding: 0;
+    font-size: 10pt;
 }
 
 #resultlist {
@@ -39,8 +40,20 @@ h3 {
 }
 
 #resultlist li {
-    background-color: #eee;
     padding: 0;
+}
+
+#resultlist li.meta {
+    padding: 0;
+    border-top: 1px solid black;
+    background: rgba(254,254,254,1);
+background: -moz-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
+background: -webkit-gradient(left top, right top, color-stop(0%, rgba(254,254,254,1)), color-stop(100%, rgba(255,166,166,1)));
+background: -webkit-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
+background: -o-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
+background: -ms-linear-gradient(left, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
+background: linear-gradient(to right, rgba(254,254,254,1) 0%, rgba(255,166,166,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#fefefe', endColorstr='#ffa6a6', GradientType=1 );
 }
 
 .related {
@@ -48,6 +61,10 @@ h3 {
 }
 
 .hidden {
+    display: none;
+}
+
+.hideheader {
     display: none;
 }
 
@@ -63,16 +80,13 @@ h3 {
 .indent {
     padding-left: 1em!important;
 }
+
 #results-wrapper {
 	font-weight: 400;
 	position: relative;
 	font-size: 11.5px;
 	padding: 1em;
     width: 50%;
-}
-
-.remove-header {
-    color: orchid;
 }
 
 #date-entry {
@@ -91,6 +105,7 @@ button {
 	font-weight: bold;
 	padding: 5px 10px;
 	text-decoration: none;
+    font-family: "Source Sans Pro", "Open Sans", sans-serif;
 }
     
 button:hover {
@@ -105,4 +120,66 @@ button:active {
 
 #go {
     background: #0c0;
+}
+#instructions {
+    color: blueviolet;
+    font-weight: 600;
+    font-family: "Source Sans Pro", "Open Sans", sans-serif;
+}
+
+.buttons {
+    margin: 10px 0;
+}
+
+/* DATEPICKER */
+
+.ui-widget {
+    font-size: 0.8em;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
+    background: #eee;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
+    background: #df0;
+}
+
+.ui-state-hover {
+    border: 1px solid #f0c!important;
+}
+#help {
+    background: #c00;
+}
+
+div {
+    
+}
+
+.helpbox {
+    z-index: 1000;
+    background: rgba(229,239,255,1);
+/* Old Browsers */background: -moz-linear-gradient(top, rgba(229,239,255,1) 0%, rgba(255,241,229,1) 100%);
+ /* FF3.6+ */background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(229,239,255,1)), color-stop(100%, rgba(255,241,229,1)));
+/* Chrome, Safari4+ */background: -webkit-linear-gradient(top, rgba(229,239,255,1) 0%, rgba(255,241,229,1) 100%);
+ /* Chrome10+,Safari5.1+ */background: -o-linear-gradient(top, rgba(229,239,255,1) 0%, rgba(255,241,229,1) 100%);
+ /* Opera 11.10+ */background: -ms-linear-gradient(top, rgba(229,239,255,1) 0%, rgba(255,241,229,1) 100%);
+ /* IE 10+ */background: linear-gradient(to bottom, rgba(229,239,255,1) 0%, rgba(255,241,229,1) 100%);
+/* W3C */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5efff', endColorstr='#fff1e5', GradientType=0 );
+/* IE6-9 */
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    padding: 3em;
+    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+}
+
+.helpitem {
+    padding: 0 0 1em 0;
+}
+
+ol {
+    margin-left: 0;
+    padding-left: 0;
 }
