@@ -35,6 +35,8 @@ $(function () {
     });
     
     $('#clean').click(function () {
+        var sectionTitle = [],
+            k = 0;
         $('li').each(function () {
             if ($(this).prev().hasClass('isrelated')) {
                 $(this).find('.related').remove();
@@ -44,12 +46,14 @@ $(function () {
         $('li.meta').css({"background": "white", "border": "none", "padding": "0"});
         $('li.date').css({"background": "white", "border": "none", "padding": "0"});
         $('.sectiontitle').each(function () {
-            var sectionTitle = $(this).html();
-            console.log(sectionTitle);
-            if (sectionTitle == "SECTIONTITLE<br>") {
-                alert("Double-check your section titles!")
-            }
+            sectionTitle.push($(this).html());
         });
+        for (k = 0; k < sectionTitle.length; k++) {
+            if (sectionTitle[k] === "SECTIONTITLE<br>") {
+                alert("Double-check your section titles!");
+                break;
+            }
+        }
     });
     
     $('#add-date').click(function () {
