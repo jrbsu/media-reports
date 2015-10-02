@@ -2,10 +2,11 @@
 	font-weight: 600;
 }
 
-.date {
+li.date {
 	color:#CE0000;
 	font-weight: 600;
     background: #ddd;
+    padding-bottom: 1em;
 }
 
 body {
@@ -19,12 +20,11 @@ h2 {
 }
 
 textarea {
-    background: #ddd;
+    height: 400px;
+    width: 100%;
     border: 1px solid #ccc;
-}
-
-textarea:hover {
-    background: #fff;
+    overflow: auto;
+    float: right;
 }
 
 h3 {
@@ -40,23 +40,25 @@ h3 {
     padding: 0;
 }
 
+ul.context {
+    list-style-position: inside;
+    padding-left: 1.5em;
+}
+
 li {
-    border: 0px solid black;
     padding: 0.3em;
+    font-size: 10pt;
 }
 
-#resultlist li.meta {
-    
+li.meta {
+    padding: 1em;
+    margin: 1em 0;
 }
 
-.quote {
-    list-style-type: circle;
+li.quote {
+    list-style-type: disc;
     border: none;
-    padding-left: 1em;
-}
-
-.quote::before {
-    content: 33;
+    padding: 0;
 }
 
 .related {
@@ -72,7 +74,7 @@ li {
 }
 
 .toggle {
-    background: lawngreen;
+    color: red;
 	cursor: pointer;
 }
 
@@ -81,7 +83,7 @@ li {
 }
 
 .indent {
-    padding-left: 1em!important;
+    padding-left: 2em!important;
 }
 
 #results-wrapper {
@@ -89,12 +91,16 @@ li {
 	position: relative;
 	font-size: 11.5px;
 	padding: 1em;
-    width: 50%;
+    width: 70%;
 }
 
 #date-entry {
     color: #CE0000;
     font-weight: 600;
+    font-size: 11pt;
+    width: 100%;
+    float: right;
+    text-align: center;
 }
 
 button {
@@ -109,6 +115,7 @@ button {
 	padding: 5px 10px;
 	text-decoration: none;
     font-family: "Source Sans Pro", "Open Sans", sans-serif;
+    font-size: 10pt;
 }
     
 button:hover {
@@ -128,10 +135,12 @@ button:active {
     color: blueviolet;
     font-weight: 600;
     font-family: "Source Sans Pro", "Open Sans", sans-serif;
+    margin: 10px 0;
 }
 
 .buttons {
     margin: 10px 0;
+    text-align: center;
 }
 
 /* DATEPICKER */
@@ -153,10 +162,6 @@ button:active {
 }
 #help {
     background: #c00;
-}
-
-div {
-    
 }
 
 .helpbox {
@@ -185,4 +190,34 @@ div {
 ol {
     margin-left: 0;
     padding-left: 0;
+}
+
+#dataEntry {
+    float: right;
+    width: 20%;
+    position: fixed;
+    top: 0;
+    right: 0;
+    background: #eee;
+    height: 100%;
+    padding: 8px 8px 8px 14px;
+}
+
+.credit {
+    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    font-size: 11pt;
+}
+
+p a {
+    text-decoration: none;
+    color: black;
+    background: rgba(44,255,255,0.1);
+    padding: 2px;
+    overflow: hidden;
+}
+
+p a:hover {
+    z-index: 100;
+    background: #00b7ff;
+    color: white;
 }

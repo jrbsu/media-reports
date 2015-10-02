@@ -2,8 +2,8 @@
 /*global $, jQuery, alert, console*/
 $(function () {
     "use strict";
+    
     $("#resultlist").sortable({cancel: ".contenteditable"});
-    //$("#resultlist").disableSelection();
 
 	String.prototype.splitNewline = function () {
 		return this.split(/\r\n|\r|\n/);
@@ -13,13 +13,16 @@ $(function () {
         website = new RegExp("www."),
         trim = new RegExp("\/.*"),
         i = 0,
-        colours = ["RGBA(160, 0, 46, 0.3)", "RGBA(231, 163, 58, 0.3)", "RGBA(244, 202, 88, 0.3)", "RGBA(167, 194, 68, 0.3)", "RGBA(68, 131, 146, 0.3)", "RGBA(158, 184, 254, 0.3)", "RGBA(231, 154, 255, 0.3)", "RGBA(186, 94, 232, 0.3)", "RGBA(67, 40, 187, 0.3)"],
+        opacity = 0.15,
+        colours = ["RGBA(160, 0, 46, " + opacity + ")", "RGBA(231, 163, 58, " + opacity + ")", "RGBA(244, 202, 88, " + opacity + ")", "RGBA(167, 194, 68, " + opacity + ")", "RGBA(68, 131, 146, " + opacity + ")", "RGBA(158, 184, 254, " + opacity + ")", "RGBA(231, 154, 255, " + opacity + ")", "RGBA(186, 94, 232, " + opacity + ")", "RGBA(67, 40, 187, " + opacity + ")"],
+        testData = $('textarea[name="urls"]').val(),
         now = new Date(),
         monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"],
         dayNumbers = [31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30],
         date = parseInt(now.getDate(), 10),
         yesterday = monthNames[now.getMonth()] + " " + (date - 1),
         today = monthNames[now.getMonth()] + " " + date;
+    
     if (date - 1 === 0) {
         yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
     }
@@ -30,21 +33,24 @@ $(function () {
     $('#resultlist').on('click', '.toggle', function () {
         $(this).parent('li').find('.sectiontitle').toggleClass('hidden');
         $(this).parent('li').find('.related').toggleClass('hidden');
-        $(this).parent('li').toggleClass('isrelated');
-        $(this).parent('li').toggleClass('indent');
+        $(this).parent('li').find('ul.context').toggleClass('hidden');
+        $(this).parent('li.meta').toggleClass('isrelated');
+        $(this).parent('li.meta').toggleClass('indent');
     });
     
     $('#clean').click(function () {
         var sectionTitle = [],
             k = 0;
-        $('li').each(function () {
+        $('li.meta').each(function () {
             if ($(this).prev().hasClass('isrelated')) {
                 $(this).find('.related').remove();
             }
         });
         $('.toggle').remove();
-        $('li.meta').css({"background": "white", "border": "none", "padding": "0"});
+        $('li').css({"font-size": "9pt"});
+        $('li.meta').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
         $('li.date').css({"background": "white", "border": "none", "padding": "0"});
+        $('li.quote').css({"padding": "0"});
         $('.sectiontitle').each(function () {
             sectionTitle.push($(this).html());
         });
@@ -71,7 +77,7 @@ $(function () {
 
 	$('#go').click(function () {
         //inits
-        //$('#results').html('<span class="date"></span><ul id="resultlist"></ul>');
+        $('#resultlist').html('');
         $('h2').html('Wikimedia Foundation Media Report:&nbsp;');
         $('h3').html('');
         
@@ -83,19 +89,29 @@ $(function () {
 		$($('textarea[name="urls"]').val().splitNewline())
             .each(function () {
                 var fetchURL = this,
+                    daction = "title",
                     newURL = fetchURL.replace(reHTTP, ""),
                     websiteName = newURL.replace(website, "").replace(trim, ""),
-                    randomColor = colours[i];
+                    randomColor = colours[i],
+                    postdata = { action: daction, url: newURL };
                 i = i + 1;
                 if (i === 9) {
                     i = 0;
                 }
                 $.ajax({
-                    url: "http://textance.herokuapp.com/title/" + encodeURIComponent(newURL),
-                    complete: function (data) {
-                        var title = data.responseText;
-                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + data.responseText + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><p class='contenteditable quote hidden' contenteditable='true'>QUOTE <a class='removequote'> &bull; remove</a></p></li>");
-                    }
+                    type: "POST",
+                    url: "https://testwiki.jamesryanalexander.com/meta/getmeta.php",
+                    data: postdata,
+                    dataType: 'json',
+                    success: function (data) {
+                        console.log(data);
+                        var titleStripped = JSON.stringify(data).replace(/["']/g, "");
+                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>QUOTE<br/></li><br/></ul></li>");
+                    },
+                    error: function (data) {
+                        console.log("Error!");
+				        console.log(data);
+				    }
                 });
             });
     });
@@ -120,6 +136,7 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
         selection.addRange(range);
     }
     var successful = document.execCommand('copy');
+    alert('Copied to clipboard!');
     // "Optional" remove selected text
-    sel.removeAllRanges();
+    selection.removeAllRanges();
 }

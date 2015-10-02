@@ -9,20 +9,22 @@
 	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
 <body>
-	<div id="dataEntry" style="float:right;">
-        <div id="instructions" style="margin: 10px 0; width:200px;">
+	<div id="dataEntry">
+        <div id="instructions">
 			Paste your urls here &darr;
 		</div>
-		<textarea name="urls" style="height: 400px; width:200px; overflow: auto;"></textarea>
-        <div class="buttons" style="text-align: center;">
+		<textarea name="urls"></textarea>
+        <div class="buttons">
             <button id="go">Go!</button>
-            <button onclick="SelectText()">Copy to clipboard</button><br/>
+            <button id="copy" onclick="SelectText()">Copy to clipboard</button><br/>
             <button id="clean">Clean up</button>
             <button id="help">Help</button>
+            <br /><br />
         </div>
         <input type="text" id="date-entry">
         <div class="buttons">
             <button id="add-date">Add date</button>
+            <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.</p>
         </div>
 	</div>
 	<div id="results-wrapper">
@@ -46,7 +48,7 @@
             <li class="helpitem">Finally, click <strong>copy to clipboard</strong> to select and copy the whole report. Paste that into your email, add a suject and recipients, and you're done! :D</li>
         </ol><br />
         <strong>Known bugs:</strong>
-        <p>If your titles are coming through as "undefined", please use Chrome (or any browser that isn't IE, Edge, or Firefox. This is a known bug that I'll hopefully fix some day. :)</p>
+        <p><s>If your titles are coming through as "undefined", please use Chrome (or any browser that isn't IE, Edge, or Firefox.</s> <em>Should now be fixed!</em></p>
         <p>Right now, the URLs are processed in no particular order. I don't know why this is, but since the UI allows you to drag them around hopefully this won't be an issue. Working on fixing it anyways.</p>
         <em>Click anywhere to close this box.</em>
     </div>
