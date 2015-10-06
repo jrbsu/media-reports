@@ -40,6 +40,7 @@ $(function () {
     
     $('#clean').click(function () {
         var sectionTitle = [],
+            sectionTitleHidden = [],
             k = 0;
         $('li.meta').each(function () {
             if ($(this).prev().hasClass('isrelated')) {
@@ -47,15 +48,24 @@ $(function () {
             }
         });
         $('.toggle').remove();
-        $('li').css({"font-size": "9pt"});
+        $('li').css({"font-size": "10pt"});
         $('li.meta').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
         $('li.date').css({"background": "white", "border": "none", "padding": "0"});
-        $('li.quote').css({"padding": "0"});
+        $('li.quote').css({"padding": "0", "background": "none", "box-shadow": "none"});
+        
+        $('li.quote').each(function () {
+            if ($(this).html() === "<br>") {
+                console.log("Yay!");
+                $(this).remove();
+            }
+        });
+        
         $('.sectiontitle').each(function () {
             sectionTitle.push($(this).html());
+            sectionTitleHidden.push($(this).hasClass('hidden'));
         });
         for (k = 0; k < sectionTitle.length; k++) {
-            if (sectionTitle[k] === "SECTIONTITLE<br>") {
+            if (sectionTitle[k] === "SECTIONTITLE<br>" && sectionTitleHidden[k] === false) {
                 alert("Double-check your section titles!");
                 break;
             }
@@ -75,25 +85,24 @@ $(function () {
         $('.helpbox').addClass('hidden');
     });
 
-	$('#go').click(function () {
+    $('#go').click(function () {
         //inits
         $('#resultlist').html('');
         $('h2').html('Wikimedia Foundation Media Report:&nbsp;');
         $('h3').html('');
         
         $('#header').append(monthNames[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear());
-        var descriptionText = $('textarea[name="desc"]').val();
         $('#description').append("In today's report...<br/><br/>");
         $('#resultlist').append("<li class='date'><p>" + yesterday + "</p></li>");
-        
-		$($('textarea[name="urls"]').val().splitNewline())
-            .each(function () {
-                var fetchURL = this,
-                    daction = "title",
-                    newURL = fetchURL.replace(reHTTP, ""),
-                    websiteName = newURL.replace(website, "").replace(trim, ""),
-                    randomColor = colours[i],
-                    postdata = { action: daction, url: newURL };
+
+        var urls = $('textarea[name="urls"]').val().splitNewline();
+		$(urls).each(function () {
+            var fetchURL = this,
+                daction = "title",
+                newURL = fetchURL.replace(reHTTP, ""),
+                websiteName = newURL.replace(website, "").replace(trim, ""),
+                randomColor = colours[i],
+                postdata = { action: daction, url: newURL };
                 i = i + 1;
                 if (i === 9) {
                     i = 0;
@@ -106,7 +115,7 @@ $(function () {
                     success: function (data) {
                         console.log(data);
                         var titleStripped = JSON.stringify(data).replace(/["']/g, "");
-                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>QUOTE<br/></li><br/></ul></li>");
+                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'><br/></li><br/></ul></li>");
                     },
                     error: function (data) {
                         console.log("Error!");

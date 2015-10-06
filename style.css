@@ -57,8 +57,9 @@ li.meta {
 
 li.quote {
     list-style-type: disc;
-    border: none;
     padding: 0;
+    background: #fff;
+    box-shadow: 1px 1px 1px 1px grey inset;
 }
 
 .related {
@@ -83,7 +84,7 @@ li.quote {
 }
 
 .indent {
-    padding-left: 2em!important;
+    margin-left: 2em!important;
 }
 
 #results-wrapper {
