@@ -15,9 +15,8 @@
 		</div>
 		<textarea name="urls"></textarea>
         <div class="buttons">
-            <button id="go">Go!</button>
+            <button id="go">Go!</button><br/>
             <button id="copy" onclick="SelectText()">Copy to clipboard</button><br/>
-            <button id="clean">Clean up</button>
             <button id="help">Help</button>
             <br /><br />
         </div>
@@ -26,6 +25,7 @@
             <button id="add-date">Add date</button>
             <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.</p>
         </div>
+        <div class="loading">Loading...</div>
 	</div>
 	<div id="results-wrapper">
         <h2 id="header">Wikimedia Foundation Media Report:&nbsp;</h2>
@@ -44,13 +44,12 @@
                 <li class="helpitem">Once they're done processing, drag them around into the order you need, and edit the section titles to suit.</li>
                 <li class="helpitem">Hit the green <strong>toggle</strong> button to format the story into a "<u>Related Stories</u>" section.</li>
                 <li class="helpitem">If you need to add new dates, use the <strong>add date</strong> tool at the bottom right. They're also draggable!</li>
-                <li class="helpitem">Once you're done, click <strong>clean up</strong> to eliminate the "toggle" switches and duplicated "<u>Related Stories</u>" headers.</li>
                 <li class="helpitem">Remember to add a summary at the top, under the main heading.</li>
-                <li class="helpitem">Finally, click <strong>copy to clipboard</strong> to select and copy the whole report. Paste that into your email, add a suject and recipients, and you're done! :D</li>
+                <li class="helpitem">Once you're done, click <strong>copy to clipboard</strong> to eliminate the "toggle" switches and duplicated "<u>Related Stories</u>" headers. Paste into your email, add a suject and recipients, and you're done! :D</li>
             </ol><br />
             <strong>Known bugs:</strong>
             <p><s>If your titles are coming through as "undefined", please use Chrome (or any browser that isn't IE, Edge, or Firefox.</s> <em>Should now be fixed!</em></p>
-            <p>Right now, the URLs are processed in no particular order. I don't know why this is, but since the UI allows you to drag them around hopefully this won't be an issue. Working on fixing it anyways.</p>
+            <p><s>Right now, the URLs are processed in no particular order.</s> <em>I think this is fixed now.</em></p>
             <br />
             <strong><em>Click anywhere to close this box.</em></strong>
         </div>

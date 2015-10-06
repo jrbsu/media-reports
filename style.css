@@ -6,7 +6,8 @@ li.date {
 	color:#CE0000;
 	font-weight: 600;
     background: #ddd;
-    padding-bottom: 1em;
+    padding: 0.3em 1em;
+    margin: 1em 0;
 }
 
 body {
@@ -59,7 +60,9 @@ li.quote {
     list-style-type: disc;
     padding: 0;
     background: #fff;
-    box-shadow: 1px 1px 1px 1px grey inset;
+    box-shadow: 1px 1px 1px 1px #ddd inset;
+    list-style-position: outside;
+    margin-left: 1em;
 }
 
 .related {
@@ -106,9 +109,9 @@ li.quote {
 
 button {
 	background-color: #666;
-	-moz-border-radius: 42px;
-	-webkit-border-radius: 42px;
-	border-radius: 42px;
+	-moz-border-radius: 15px;
+	-webkit-border-radius: 15px;
+	border-radius: 15px;
 	display: inline-block;
 	cursor: pointer;
 	color: #ffffff;
@@ -117,6 +120,7 @@ button {
 	text-decoration: none;
     font-family: "Source Sans Pro", "Open Sans", sans-serif;
     font-size: 9pt;
+    width: 100%;
 }
     
 button:hover {
@@ -130,8 +134,10 @@ button:active {
 }
 
 #go {
-    background: #0c0;
+    background: #3b0;
+    width: 100%;
 }
+
 #instructions {
     color: blueviolet;
     font-weight: 600;
@@ -228,4 +234,19 @@ p a:hover {
 
 .helpbox-content {
     padding: 3em;
+}
+
+.loading {
+    background: #f00;
+    color: #fff;
+    width: 85%;
+    height: 40px;
+    text-align: center;
+    vertical-align: center;
+    line-height: 40px;
+    position: absolute;
+    top: 1em;
+    right: 1em;
+    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    display: none;
 }

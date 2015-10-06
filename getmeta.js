@@ -21,7 +21,8 @@ $(function () {
         dayNumbers = [31, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30],
         date = parseInt(now.getDate(), 10),
         yesterday = monthNames[now.getMonth()] + " " + (date - 1),
-        today = monthNames[now.getMonth()] + " " + date;
+        today = monthNames[now.getMonth()] + " " + date,
+        clicked = false;
     
     if (date - 1 === 0) {
         yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
@@ -38,40 +39,6 @@ $(function () {
         $(this).parent('li.meta').toggleClass('indent');
     });
     
-    $('#clean').click(function () {
-        var sectionTitle = [],
-            sectionTitleHidden = [],
-            k = 0;
-        $('li.meta').each(function () {
-            if ($(this).prev().hasClass('isrelated')) {
-                $(this).find('.related').remove();
-            }
-        });
-        $('.toggle').remove();
-        $('li').css({"font-size": "10pt"});
-        $('li.meta').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
-        $('li.date').css({"background": "white", "border": "none", "padding": "0"});
-        $('li.quote').css({"padding": "0", "background": "none", "box-shadow": "none"});
-        
-        $('li.quote').each(function () {
-            if ($(this).html() === "<br>") {
-                console.log("Yay!");
-                $(this).remove();
-            }
-        });
-        
-        $('.sectiontitle').each(function () {
-            sectionTitle.push($(this).html());
-            sectionTitleHidden.push($(this).hasClass('hidden'));
-        });
-        for (k = 0; k < sectionTitle.length; k++) {
-            if (sectionTitle[k] === "SECTIONTITLE<br>" && sectionTitleHidden[k] === false) {
-                alert("Double-check your section titles!");
-                break;
-            }
-        }
-    });
-    
     $('#add-date').click(function () {
         var newDate = $('#date-entry').val();
         $('#resultlist').append("<li class='date'><p>" + newDate + "</p></li>");
@@ -86,6 +53,14 @@ $(function () {
     });
 
     $('#go').click(function () {
+        if (clicked === true) {
+            var r = window.confirm("This will erase what you've already done!\n\nAre you sure?");
+            if (r === false) {
+                return false;
+            }
+        }
+        
+        clicked = true;
         //inits
         $('#resultlist').html('');
         $('h2').html('Wikimedia Foundation Media Report:&nbsp;');
@@ -95,25 +70,28 @@ $(function () {
         $('#description').append("In today's report...<br/><br/>");
         $('#resultlist').append("<li class='date'><p>" + yesterday + "</p></li>");
 
-        var urls = $('textarea[name="urls"]').val().splitNewline();
+        var urls = $('textarea[name="urls"]').val().splitNewline(),
+            p = $('.loading').fadeIn().promise();
 		$(urls).each(function () {
             var fetchURL = this,
                 daction = "title",
                 newURL = fetchURL.replace(reHTTP, ""),
                 websiteName = newURL.replace(website, "").replace(trim, ""),
                 randomColor = colours[i],
+                e = 0,
                 postdata = { action: daction, url: newURL };
-                i = i + 1;
-                if (i === 9) {
-                    i = 0;
-                }
-                $.ajax({
+            i = i + 1;
+            if (i === 9) {
+                i = 0;
+            }
+            p = p.then(function () {
+                return $.ajax({
                     type: "POST",
+ //                 async: false, (Well, maybe....)
                     url: "https://testwiki.jamesryanalexander.com/meta/getmeta.php",
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
                         var titleStripped = JSON.stringify(data).replace(/["']/g, "");
                         $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'><br/></li><br/></ul></li>");
                     },
@@ -122,17 +100,61 @@ $(function () {
 				        console.log(data);
 				    }
                 });
+            }).then(function () {
+                console.log("Done URL ", e); // log it
+                e = e + 1;
+            }, function () {
+                return $.Deferred().resolve(); // suppress request failure
             });
+        });
+        p.then(function () { // when all the actions are done
+            $(".loading").fadeOut(); // when all done - fade out
+        });
     });
 });
 
 function SelectText() { //this code from https://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
     "use strict";
-    $('.toggle').remove();
+    
     var doc = document,
         text = doc.getElementById('results-wrapper'),
         range,
-        selection;
+        selection,
+        successful,
+        sectionTitle = [],
+        sectionTitleHidden = [],
+        k = 0;
+    
+    $('li.meta').each(function () {
+        if ($(this).prev().hasClass('isrelated')) {
+            $(this).find('.related').remove();
+        }
+    });
+    $('.toggle').remove();
+    $('li').css({"font-size": "10pt"});
+    $('li.meta').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
+    $('li.date').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
+    $('li.quote').css({"padding": "0", "background": "none", "box-shadow": "none"});
+    
+    $('li.quote').each(function () {
+        if ($(this).html() === "<br>") {
+            console.log("Yay!");
+            $(this).remove();
+        }
+    });
+    
+    $('.sectiontitle').each(function () {
+        sectionTitle.push($(this).html());
+        sectionTitleHidden.push($(this).hasClass('hidden'));
+    });
+    for (k = 0; k < sectionTitle.length; k += 1) {
+        if (sectionTitle[k] === "SECTIONTITLE<br>" && sectionTitleHidden[k] === false) {
+            alert("Double-check your section titles!");
+            break;
+        }
+    }
+    $('.toggle').remove();
+
     if (doc.body.createTextRange) {
         range = document.body.createTextRange();
         range.moveToElementText(text);
@@ -144,8 +166,8 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
         selection.removeAllRanges();
         selection.addRange(range);
     }
-    var successful = document.execCommand('copy');
-    alert('Copied to clipboard!');
+    successful = document.execCommand('copy');
+    console.log('Copied to clipboard!');
     // "Optional" remove selected text
     selection.removeAllRanges();
 }
