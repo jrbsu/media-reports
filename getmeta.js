@@ -1,9 +1,9 @@
 /*jslint browser: true*/
 /*global $, jQuery, alert, console*/
-$(function () {
+$(document).ready(function () {
     "use strict";
     
-    $("#resultlist").sortable({cancel: ".contenteditable"});
+    $("#resultlist").sortable({cancel: ".contenteditable,.deleteButton"});
 
 	String.prototype.splitNewline = function () {
 		return this.split(/\r\n|\r|\n/);
@@ -51,7 +51,11 @@ $(function () {
     $('.helpbox').click(function () {
         $('.helpbox').addClass('hidden');
     });
-
+    
+    $('#resultlist').on('click', '.deleteButton', function () {
+        $(this).parent().remove();
+    });
+    
     $('#go').click(function () {
         if (clicked === true) {
             var r = window.confirm("This will erase what you've already done!\n\nAre you sure?");
@@ -59,8 +63,8 @@ $(function () {
                 return false;
             }
         }
-        
         clicked = true;
+        
         //inits
         $('#resultlist').html('');
         $('h2').html('Wikimedia Foundation Media Report:&nbsp;');
@@ -93,7 +97,7 @@ $(function () {
                     dataType: 'json',
                     success: function (data) {
                         var titleStripped = JSON.stringify(data).replace(/["']/g, "");
-                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'><br/></li><br/></ul></li>");
+                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><p class='deleteButton'>×</p><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'><br/></li><br/></ul></li>");
                     },
                     error: function (data) {
                         console.log("Error!");
@@ -111,6 +115,7 @@ $(function () {
             $(".loading").fadeOut(); // when all done - fade out
         });
     });
+    
 });
 
 function SelectText() { //this code from https://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
@@ -150,7 +155,7 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
     for (k = 0; k < sectionTitle.length; k += 1) {
         if (sectionTitle[k] === "SECTIONTITLE<br>" && sectionTitleHidden[k] === false) {
             alert("Double-check your section titles!");
-            break;
+            return false;
         }
     }
     $('.toggle').remove();
@@ -167,7 +172,7 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
         selection.addRange(range);
     }
     successful = document.execCommand('copy');
-    console.log('Copied to clipboard!');
+    alert('Copied to clipboard!');
     // "Optional" remove selected text
     selection.removeAllRanges();
 }
