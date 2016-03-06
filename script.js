@@ -12,7 +12,9 @@ $(document).ready(function () {
 	var reHTTP = new RegExp("h.*://"),
         website = new RegExp("www."),
         trim = new RegExp("\/.*"),
+        topics = [],
         i = 0,
+        y = 0,
         opacity = 0.15,
         colours = ["RGBA(160, 0, 46, " + opacity + ")", "RGBA(231, 163, 58, " + opacity + ")", "RGBA(244, 202, 88, " + opacity + ")", "RGBA(167, 194, 68, " + opacity + ")", "RGBA(68, 131, 146, " + opacity + ")", "RGBA(158, 184, 254, " + opacity + ")", "RGBA(231, 154, 255, " + opacity + ")", "RGBA(186, 94, 232, " + opacity + ")", "RGBA(67, 40, 187, " + opacity + ")"],
         testData = $('textarea[name="urls"]').val(),
@@ -69,25 +71,30 @@ $(document).ready(function () {
         $('#resultlist').html('');
         $('h2').html('Wikimedia Foundation Media Report:&nbsp;');
         $('h3').html('');
+//        $('form').toggleClass('hidden');
         
         $('#header').append(monthNames[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear());
         $('#description').append("In today's report...<br/><br/>");
         $('#resultlist').append("<li class='date'><p>" + yesterday + "</p></li>");
 
-        var urls = $('textarea[name="urls"]').val().splitNewline(),
-            p = $('.loading').fadeIn().promise();
-		$(urls).each(function () {
-            var fetchURL = this,
-                daction = "title",
-                newURL = fetchURL.replace(reHTTP, ""),
-                websiteName = newURL.replace(website, "").replace(trim, ""),
-                randomColor = colours[i],
-                e = 0,
-                postdata = { action: daction, url: newURL };
-            i = i + 1;
-            if (i === 9) {
-                i = 0;
-            }
+        var urls = testData.splitNewline(),
+            p = $('.loading').fadeIn().promise(),
+            e = 0,
+            fetchURL = urls[y],
+            daction = "title",
+            newURL = fetchURL.replace(reHTTP, ""),
+            websiteName = newURL.replace(website, "").replace(trim, ""),
+            randomColor = colours[i], //Possibly remove this
+            postdata = { action: daction, url: newURL },
+            urlarray = [],
+            pubarray = [],
+            titlearray = [],
+            datearray = [],
+            subjects = [],
+            contextarray = [],
+            languagesarray = [],
+            titleStripped = "";
+		$.each(urls) {
             p = p.then(function () {
                 return $.ajax({
                     type: "POST",
@@ -96,8 +103,11 @@ $(document).ready(function () {
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
-                        var titleStripped = JSON.stringify(data).replace(/["']/g, "");
-                        $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><p class='deleteButton'>×</p><span class='sectiontitle contenteditable' contenteditable='true'>SECTIONTITLE<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable'  contenteditable='true'>" + websiteName + " - " + titleStripped + "<br/></span>" + fetchURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'><br/></li><br/></ul></li>");
+                        titleStripped = JSON.stringify(data).replace(/["']/g, "");
+                        urlarray.push(fetchURL);
+                        pubarray.push(websiteName);
+                        titlearray.push(titleStripped);
+                        
                     },
                     error: function (data) {
                         console.log("Error!");
@@ -105,19 +115,34 @@ $(document).ready(function () {
 				    }
                 });
             }).then(function () {
-                console.log("Done URL ", e); // log it
-                e = e + 1;
+                $(urlarray).each(function (index) {
+                    $('input[name="rawurl"]').val(urlarray[index]);
+                    $('input[name="publication"]').val(pubarray[index]);
+                    $('input[name="pagetitle"]').val(titlearray[index]);
+                });
+                $('#addNew').click(function () {
+                    console.log("Added URL ", e); // log it
+                    var newTopic = $('input[name="newtopic"]').val(),
+                        newURL = $('input[name="rawurl"]').val(),
+                        newPublication = $('input[name="publication"]').val(),
+                        newTitle = ('input[name="pagetitle"]').val();
+                    topics.push(newTopic);
+                    $('#resultlist').append("<li class='meta' style='background:" + randomColor + "'><p class='deleteButton'>×</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newTopic + "<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<a class='toggle'> &bull; toggle</a><br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'><br/></li><br/></ul></li>");
+                    e = 1;
+                    y = y + 1;
+                });
             }, function () {
                 return $.Deferred().resolve(); // suppress request failure
             });
-        });
+        }
         p.then(function () { // when all the actions are done
             $(".loading").fadeOut(); // when all done - fade out
+            $("form").addClass('hidden');
         });
     });
-    
 });
 
+    
 function SelectText() { //this code from https://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
     "use strict";
     

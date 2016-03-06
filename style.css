@@ -35,7 +35,7 @@ h3 {
     font-size: 10pt;
 }
 
-#resultlist {
+.resultlist {
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -115,7 +115,7 @@ li.quote {
     margin-left: 2em!important;
 }
 
-#results-wrapper {
+.results-wrapper {
 	font-weight: 400;
 	position: relative;
 	font-size: 11.5px;
@@ -123,14 +123,7 @@ li.quote {
     width: 70%;
 }
 
-#date-entry {
-    color: #CE0000;
-    font-weight: 600;
-    font-size: 11pt;
-    width: 100%;
-    float: right;
-    text-align: center;
-}
+
 
 button {
 	background-color: #666;
@@ -163,7 +156,7 @@ button:active {
     width: 100%;
 }
 
-#instructions {
+.instructions {
     color: blueviolet;
     font-weight: 600;
     font-family: "Source Sans Pro", "Open Sans", sans-serif;
@@ -227,7 +220,7 @@ ol {
     padding-left: 0;
 }
 
-#dataEntry {
+.dataEntry {
     float: right;
     width: 20%;
     position: fixed;
@@ -274,4 +267,111 @@ p a:hover {
     right: 1em;
     font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
     display: none;
+}
+
+#form {
+    background: #f0f0f0;
+    padding: 1em;
+    font-size: 11pt;
+    float: left;
+    width: 100%;
+    font-family: 'Open Sans', 'Helvetica', sans-serif;
+    border: thick solid #f4d4f4
+}
+
+.answer {
+    background: white;
+    border: 1px black solid;
+    padding: 3px;
+    width: 100%;
+}
+
+.question {
+    padding: 3px;
+    font-weight: 600;
+}
+
+.formentry {
+    margin: 3px 0;
+    padding: 3px;
+}
+
+
+
+.formbutton2 {
+    width: 20%;
+    float: right;
+    margin-top: -0.2rem;
+}
+
+.counter-wrapper {
+    padding: 1rem;
+    text-align: right;
+}
+
+#subject {
+    font-size: 125%;
+    font-weight: 600;
+}
+
+#addNew {
+    background: #3b0;
+}
+
+.lastformentry {
+    margin-bottom: 1rem;
+}
+
+.pagination {
+    background: white;
+    border: 1px black solid;
+    padding: 3px;
+    font-size: 110%;
+}
+
+.disabled {
+    background: #ccc;
+}
+
+.disabled:hover {
+    background: #ccc!important;
+}
+
+.finished {
+    font-weight: 600;
+    background: #ee5;
+    padding: 0.2em 0.5em;
+}
+
+@media screen and (min-width: 38rem)  {
+    .hide-desktop {
+        display: none; 
+    }
+}
+.mobile-warning {
+    padding: 3em;
+    height: 3em;
+    position: absolute;
+    top: 5em;
+}
+
+.mobile-box {
+    z-index: 1000;
+    background: rgba(255,239,229,1);
+/* Old Browsers */background: -moz-linear-gradient(top, rgba(255,239,229,1) 0%, rgba(241,255,229,1) 100%);
+ /* FF3.6+ */background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(255,239,229,1)), color-stop(100%, rgba(241,255,229,1)));
+/* Chrome, Safari4+ */background: -webkit-linear-gradient(top, rgba(255,239,229,1) 0%, rgba(241,255,229,1) 100%);
+ /* Chrome10+,Safari5.1+ */background: -o-linear-gradient(top, rgba(255,239,229,1) 0%, rgba(241,255,229,1) 100%);
+ /* Opera 11.10+ */background: -ms-linear-gradient(top, rgba(255,239,229,1) 0%, rgba(241,255,229,1) 100%);
+ /* IE 10+ */background: linear-gradient(to bottom, rgba(255,239,229,1) 0%, rgba(241,255,229,1) 100%);
+/* W3C */filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e5efff', endColorstr='#fff1e5', GradientType=0 );
+/* IE6-9 */
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    font-size: 11pt;
+    overflow: scroll;
 }
