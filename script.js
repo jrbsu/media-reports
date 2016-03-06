@@ -2,7 +2,6 @@
 /*global $, jQuery, alert, console*/
 $(document).ready(function () {
     "use strict";
-    
     $("#resultlist").sortable({cancel: ".contenteditable,.deleteButton"});
 
 	String.prototype.splitNewline = function () {
@@ -24,7 +23,23 @@ $(document).ready(function () {
         date = parseInt(now.getDate(), 10),
         yesterday = monthNames[now.getMonth()] + " " + (date - 1),
         today = monthNames[now.getMonth()] + " " + date,
-        clicked = false;
+        clicked = false,
+        confirmOnPageExit = function (e) {
+            // If we haven't been passed the event get the window.event
+            e = e || window.event;
+
+            var message = 'You are about to leave the page; any progress you\'ve made will be lost! Are you sure?';
+
+            // For IE6-8 and Firefox prior to version 4
+            if (e) {
+                e.returnValue = message;
+            }
+
+            // For Chrome, Safari, IE8+ and Opera 12+
+            return message;
+        };
+    
+    window.onbeforeunload = confirmOnPageExit;
     
     if (date - 1 === 0) {
         yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
