@@ -330,7 +330,7 @@ p a:hover {
 }
 
 .disabled {
-    background: #ccc;
+    background: #ccc!important;
 }
 
 .disabled:hover {
@@ -343,7 +343,7 @@ p a:hover {
     padding: 0.2em 0.5em;
 }
 
-@media screen and (min-width: 38rem)  {
+@media screen and (min-width: 600px)  {
     .hide-desktop {
         display: none; 
     }

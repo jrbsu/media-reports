@@ -1,206 +1,114 @@
-<!DOCTYPE html>
-
-<html lang="en">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
-    <title>Media Report simplifier</title>
-    <script src=
-    "https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js">
-    </script>
-    <link href=
-    "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css"
-    rel="stylesheet">
-    <script src=
-    "https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js">
-    </script>
-    <link href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"
-    rel="stylesheet">
-    <script src="newscript.js">
-    </script>
-    <script src="moment.js">
-    </script>
-    <link href="style.css" rel="stylesheet" type="text/css">
+	<title>Media Report simplifier</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+	<script src="newscript.js"></script>
+	<script src="moment.js"></script>
+	<link rel="stylesheet" type="text/css" href="style.css">
 </head>
-
 <body>
-    <div class="dataEntry">
+	<div class="dataEntry">
         <div class="instructions">
-            Paste your urls here &darr;
-        </div>
-
-        <textarea name="urls"></textarea>
-
+			Paste your urls here &darr;
+		</div>
+		<textarea name="urls"></textarea>
         <div class="buttons">
-            <button id="go">Go!</button><br>
-            <button class="disabled" disabled id="copy" onclick=
-            "SelectText()">Copy to clipboard</button><br>
-            <button id="help">Help and known bugs</button><br>
-            <br>
+            <button id="go">Go!</button><br/>
+            <button id="copy" onclick="SelectText()" disabled class="disabled">Copy to clipboard</button><br/>
+            <button id="help">Help and known bugs</button>
+            <br /><br />
         </div>
-
-
         <div class="buttons">
-            <p class="credit">A tool by <a href=
-            "http://joesutherland.rocks/">Joe Sutherland</a>.<br>
-            Released under <a href=
-            "https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA
-            4.0</a>.<br>
-            <br>
-            You're looking at <strong>Version 2.0</strong></p>
+            <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.<br/><br/>You're looking at <strong>Version 2.2</strong></p>
         </div>
-
-
-        <div class="loading">
-            Loading...
-        </div>
-    </div>
-
-
-    <div class="results-wrapper">
-        <div id="form">
+        <div class="loading">Loading...</div>
+	</div>
+	<div class="results-wrapper">
+        
+        <div id="form" class="hidden">
             <div class="formentry">
                 <label class="question" for="rawurl">URL:&nbsp;</label>
                 <input class="answer" name="rawurl">
             </div>
-
-
             <div class="formentry">
-                <label class="question" for=
-                "publication">Publication:&nbsp;</label> <input class="answer"
-                name="publication">
+                <label class="question" for="publication">Publication:&nbsp;</label>
+                <input class="answer" name="publication">
             </div>
-
-
             <div class="formentry">
                 <label class="question" for="pagetitle">Title:&nbsp;</label>
                 <input class="answer" name="pagetitle">
             </div>
-
-
             <div class="formentry">
                 <label class="question" for="date-entry">Date:&nbsp;</label>
                 <input class="answer" id="date-entry" name="date-entry">
             </div>
-
-
-            <div class="formentry">
-                <label class="question" for=
-                "subject">Subject/Topic:&nbsp;</label> <select class="answer"
-                id="subject" name="subject">
-                    </select>
+            <div class="formentry"><label class="question" for="subject">Subject/Topic:&nbsp;</label>
+                <select class="answer" name="subject" id="subject">
+                </select>
             </div>
-
-
             <div class="formentry" style="margin: 0 0 0 2em;">
                 <label class="question" for="newtopic">Add new:&nbsp;</label>
-                <input class="answer" name="newtopic" style=
-                "width: 50%;"><button class="formbutton2" id="newTopic">Add
-                topic</button>
+                <input class="answer" name="newtopic" style="width: 50%;">
+                            <button class="formbutton2" id="newTopic">Add topic</button>
+
             </div>
             <!-- <div class="formentry"><label class="question" for="nonenglish">Not English?</label><input type="checkbox" name="nonenglish" id="nonenglish" value="other"></div>
             <div class="formentry"><label class="question" for="language">Language:&nbsp;</label><input class="answer" name="language"></div> -->
-
-
             <div class="formentry lastformentry">
-                <label class="question" for=
-                "context">Context/quote:&nbsp;</label> <input class="answer"
-                name="context">
+                <label class="question" for="context">Context/quote:&nbsp;</label>
+                <input class="answer" name="context">
             </div>
+            
             <button class="formbutton" id="addNew">Add to results</button>
-
+            
             <div class="counter-wrapper">
-                <span class="counter"></span> <select class="pagination" id=
-                "pagination" name="pagination">
-                    </select>
-            </div>
+                <span class="counter"></span>
+                <select class="pagination" name="pagination" id="pagination">
+                </select></div>
+            
         </div>
 
-
-        <h2 class="header">Wikimedia Foundation Media Report:&nbsp;</h2>
-
-
-        <h3 class="description" contenteditable="true">
-        </h3>
-
-
+        <h2 class="header"></h2>
+        <h3 class="description" contenteditable="true"></h3>
         <div class="results">
             <ul class="resultlist">
             </ul>
         </div>
     </div>
+    
     <!-- HELPBOX START -->
-
-
     <div class="helpbox hidden">
         <div class="helpbox-content">
             <h2>How to use this tool</h2>
-
-
             <ol>
-                <li class="helpitem">Open the relevant articles from your
-                Google Alerts in new tabs as usual. (If you are not sure how to
-                do this, or what this means, contact Joe Sutherland via
-                email—jsutherland [at] wikimedia.org).)</li>
-
-
-                <li class="helpitem">Use an extension such as <a href=
-                "https://chrome.google.com/webstore/detail/copy-all-urls/djdmadneanknadilpjiknlnanaolmbfk?hl=en"
-                    target="_blank" title="Copy All URLs">Copy All URLs</a> to
-                    get all news items' URLs onto your clipboard, and paste
-                    them into the grey box. Hit <strong>Go!</strong>.
-                </li>
-
-
-                <li class="helpitem">Once the URLs are done processing (this
-                can take a few moments!), the form should be populated by some
-                information from the first URL. Add a <strong>subject</strong>
-                and hit enter (or click "<strong>add topic</strong>").</li>
-
-
-                <li class="helpitem">Double-check the title is trimmed and
-                correct, that the web address makes sense, and the date is
-                correct, then add some context (a quote, for example).</li>
-
-
-                <li class="helpitem">Click "<strong>Add to results</strong>".
-                It will be added under the appropriate topic
-                automatically.</li>
-
-
-                <li class="helpitem">The software should alert you when all
-                URLs are done. If you need to go back to one you missed, use
-                the <strong>item</strong> dropdown.</li>
-
-
-                <li class="helpitem">Once you're done, click <strong>copy to
-                clipboard</strong> to format the report. Paste into your email,
-                add a suject, summary, and recipients, and you're done! :D</li>
-            </ol>
-            <br>
+                <li class="helpitem">Open the relevant articles from your Google Alerts in new tabs as usual. (If you are not sure how to do this, or what this means, contact Joe Sutherland via email—jsutherland [at] wikimedia.org).)</li>
+                <li class="helpitem">Use an extension such as <a href="https://chrome.google.com/webstore/detail/copy-all-urls/djdmadneanknadilpjiknlnanaolmbfk?hl=en" target="_blank" title="Copy All URLs">Copy All URLs</a> to get all news items' URLs onto your clipboard, and paste them into the grey box. Hit <strong>Go!</strong>.</li>
+                <li class="helpitem">Once the URLs are done processing (this can take a few moments!), the form should be populated by some information from the first URL. Add a <strong>subject</strong> and hit enter (or click "<strong>add topic</strong>").</li>
+                <li class="helpitem">Double-check the title is trimmed and correct, that the web address makes sense, and the date is correct, then add some context (a quote, for example).</li>
+                <li class="helpitem">Click "<strong>Add to results</strong>". It will be added under the appropriate topic automatically.</li>
+                <li class="helpitem">The software should alert you when all URLs are done. If you need to go back to one you missed, use the <strong>item</strong> dropdown.</li>
+                <li class="helpitem">Once you're done, click <strong>copy to clipboard</strong> to format the report. Paste into your email, add a suject, summary, and recipients, and you're done! :D</li>
+            </ol><br />
             <strong>Known bugs:</strong>
-
-            <p>The dates will be inserted in the order you put them in. Working
-            on adding functionality to sort these in real time.</p>
-            <br>
+            <p>The dates will be inserted in the order you put them in. Working on adding functionality to sort these in real time.</p>
+            <br />
             <strong><em>Click anywhere to close this box.</em></strong>
         </div>
     </div>
     <!-- HELPBOX END -->
-
-
+    
     <div class="mobile-box hide-desktop">
         <div class="mobile-warning">
             <h2>Hi there!</h2>
-
-
-            <p>This tool is designed for desktop use only, and so won't
-            properly display on a mobile device.</p>
-
-
+            <p>This tool is designed for desktop use only, and so won't properly display on a mobile device.</p>
             <p>Instead, here's an M83 record.</p>
-            <iframe allowfullscreen="" frameborder="0" height="300" src=
-            "https://www.youtube-nocookie.com/embed/ryh9rkIRGUs?rel=0&amp;controls=0&amp;showinfo=0"
-            width="100%"></iframe>
+            <iframe width="100%" height="300" src="https://www.youtube-nocookie.com/embed/ryh9rkIRGUs?rel=0&amp;controls=0&amp;showinfo=0" frameborder="0" allowfullscreen></iframe>
         </div>
     </div>
+    
 </body>
 </html>
