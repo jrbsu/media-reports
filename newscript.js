@@ -8,6 +8,12 @@ $(document).ready(function () {
 	String.prototype.splitNewline = function () {
 		return this.split(/\r\n|\r|\n/);
 	};
+    
+    function myConfirmation() {
+        return 'Are you sure you want to quit?';
+    }
+
+    window.onbeforeunload = myConfirmation;
 
 	var reHTTP = new RegExp("h.*://"),
         website = new RegExp("www."),
@@ -32,15 +38,6 @@ $(document).ready(function () {
         dayOfWeek = moment().day(),
         clicked = false,
         resultClicked = false;
-    confirmOnPageExit = function (e) {
-        e = e || window.event;
-        var message = 'You are about to leave the page; any progress you\'ve made will be lost! Are you sure?';
-        if (e) {
-            e.returnValue = message;
-        }
-        return message;
-    };
-    window.onbeforeunload = confirmOnPageExit;
     
     if (date - 1 === 0) {
         yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
@@ -48,10 +45,10 @@ $(document).ready(function () {
     
     $('#date-entry').datepicker({ dateFormat: "MM d" });
     $('#date-entry').datepicker("setDate", today);
-    if (dayOfWeek === 1) {		    
-        $('#date-entry').datepicker("setDate", friday);		
-    } else {		
-        $('#date-entry').datepicker("setDate", yesterday);		
+    if (dayOfWeek === 1) {
+        $('#date-entry').datepicker("setDate", friday);
+    } else {
+        $('#date-entry').datepicker("setDate", yesterday);
     }
     
     // I believe this is now redundant, but commenting out in case
