@@ -32,6 +32,15 @@ $(document).ready(function () {
         dayOfWeek = moment().day(),
         clicked = false,
         resultClicked = false;
+    confirmOnPageExit = function (e) {
+        e = e || window.event;
+        var message = 'You are about to leave the page; any progress you\'ve made will be lost! Are you sure?';
+        if (e) {
+            e.returnValue = message;
+        }
+        return message;
+    };
+    window.onbeforeunload = confirmOnPageExit;
     
     if (date - 1 === 0) {
         yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
