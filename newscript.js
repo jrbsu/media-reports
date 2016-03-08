@@ -3,17 +3,17 @@
 $(document).ready(function () {
     "use strict";
     
-    $("#resultlist").sortable({cancel: ".contenteditable,.deleteButton"});
+    $(".resultlist").sortable({cancel: ".contenteditable,.deleteButton,.isrelated"});
 
 	String.prototype.splitNewline = function () {
 		return this.split(/\r\n|\r|\n/);
 	};
     
-    function myConfirmation() {
+    function confirmExit() {
         return 'Are you sure you want to quit?';
     }
 
-    window.onbeforeunload = myConfirmation;
+    window.onbeforeunload = confirmExit;
 
 	var reHTTP = new RegExp("h.*://"),
         website = new RegExp("www."),
@@ -83,7 +83,7 @@ $(document).ready(function () {
         $('#copy').prop('disabled', false).removeClass('disabled');
         
         //inits
-        $('#resultlist').html('');
+        $('.resultlist').html('');
         $('h2').html('');
         $('h3').html('');
         
@@ -233,18 +233,20 @@ $(document).ready(function () {
             $("#pagination").css("background", "#fff");
         }
 
-        if ($(".date" + momentDate)[0]) { //If there is a date already
-            if ($(ifStatement)[0]) {
-                $(".date" + momentDate).next(ifStatement).last().after("<li class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='related'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /></li>");
+        if ($(".date" + momentDate)[0]) { //If there is this date already
+            if ($(ifStatement)[0]) { //This is a related
+                $('.date' + momentDate + ' ~ ' + ifStatement).append("<li class='meta " + newSubject + " isrelated' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='related'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /></li>");
             } else {
-                $('.date' + momentDate).after("<li class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul><br/></li>");
+                $('.date' + momentDate).after("<div class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul></div>");
+                $('.sortkey').append("<li class='sortitem' id='" + newSubject + "'><p>" + newSubjectText + "</p></li>");
             }
         } else { //if there is not this date already
             if ($('.date')[0]) {
-//                momentDate < $('.resultlist').find('.date').attr('id'));
-                $('.resultlist').append("<li class='date date" + momentDate + "' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<li class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul><br/></li>");
+                $('.resultlist').append("<li class='date date" + momentDate + "' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<div class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul></div>");
+                $('.sortkey').append("<li class='sortitem-date' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<li class='sortitem' id='" + newSubject + "'><p>" + newSubjectText + "</p></li>");
             } else {
-                $('.resultlist').prepend("<li class='date date" + momentDate + "' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<li class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul><br/></li>");
+                $('.resultlist').prepend("<li class='date date" + momentDate + "' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<div class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul></div>");
+                $('.sortkey').append("<li class='sortitem-date' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<li class='sortitem' id='" + newSubject + "'><p>" + newSubjectText + "</p></li>");
             }
         }
         u = u + 1;
@@ -267,7 +269,21 @@ $(document).ready(function () {
         }
     });
     
-//    $('#next-url').click(function () {
+    $(".sortkey").sortable({
+        start: function (event, ui) {
+            $(this).data("elPos", ui.item.index());
+        },
+        update: function (event, ui) {
+            var origPos = $(this).data("elPos");
+            $(".resultlist").each(function (i, e) {
+                if (origPos > ui.item.index()) {
+                    $(this).children("li:eq(" + origPos + ")").insertBefore($(this).children("li:eq(" + ui.item.index() + ")"));
+                } else {
+                    $(this).children("li:eq(" + origPos + ")").insertAfter($(this).children("li:eq(" + ui.item.index() + ")"));
+                }
+            })
+        }
+    }).disableSelection();
         
 });
 
@@ -290,23 +306,22 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
     
     reportSummary = prompt("Please enter a description to go underneath the date on this media report.");
     
-    $('li.meta').each(function () {
-        if ($(this).prev().hasClass('isrelated')) {
-            $(this).find('.related').remove();
+    $('.quote').each(function () {
+        if ($(this).html() === "<br>") {
+            $(this).parent().remove();
         }
+    });
+    
+    $('.meta .related').slice(1).remove();
+    $('.meta').each(function () {
+        $(this).append("<br />");
     });
     $('.toggle').remove();
     $('li').css({"font-size": "10pt"});
-    $('li.meta').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
-    $('li.date').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
+    $('div').css({"font-size": "10pt"});
+    $('.meta').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
+    $('.date').css({"background": "white", "border": "none", "padding": "0", "margin": "0"});
     $('li.quote').css({"padding": "0", "background": "none", "box-shadow": "none"});
-    
-    $('li.quote').each(function () {
-        if ($(this).html() === "<br>") {
-            console.log("Yay!");
-            $(this).remove();
-        }
-    });
     
     $('.toggle').remove();
     $('.description').html(reportSummary);

@@ -2,7 +2,7 @@
 	font-weight: 600;
 }
 
-li.date {
+.date {
 	color:#CE0000;
 	font-weight: 600;
     background: #ddd;
@@ -46,12 +46,8 @@ ul.context {
     padding-left: 1.5em;
 }
 
-li {
-    padding: 0.3em;
+.meta {
     font-size: 10pt;
-}
-
-li.meta {
     padding: 1em;
     margin: 1em 0;
 }
@@ -374,4 +370,32 @@ p a:hover {
     font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
     font-size: 11pt;
     overflow: scroll;
+}
+
+#sort {
+    width: 4rem;
+    float: left;
+    display: none;
+}
+
+.sort-wrapper {
+	font-weight: 400;
+	position: relative;
+	font-size: 11.5px;
+	padding: 1em;
+    width: 70%;
+    display: none;
+}
+
+.sortitem, .sortitem-date {
+    list-style: none;
+    line-height: 0em;
+    padding: 0.5em;
+    margin: 0 0 0 -2.4em;
+    border: #333 1px solid;
+}
+
+.sortitem-date {
+    font-weight: 600;
+    color: #600;
 }
