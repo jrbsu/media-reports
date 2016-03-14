@@ -202,7 +202,7 @@ $(document).ready(function () {
     $('input[name="newtopic"]').keypress(function (e) {
         if (e.which === 13) {
             var newTopic = $('input[name="newtopic"]').val(),
-                topicTruncated = newTopic.replace(/\s+/g, '').toLowerCase();
+                topicTruncated = newTopic.replace(/[$-/:-?{-~!"^_`\[\]@\s\\#]/, '').toLowerCase();
             topics.push(newTopic);
             $($('<option>', {
                 value: topicTruncated,
