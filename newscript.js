@@ -25,7 +25,8 @@ $(document).ready(function () {
         urlarray = [], // need this
         pubarray = [], // need this
         titlearray = [], // need this
-        completedarray = [], // need this
+        completediconarray = [], // need this
+        completedarray = [],
         opacity = 0.15,
         colours = ["RGBA(160, 0, 46, " + opacity + ")", "RGBA(231, 163, 58, " + opacity + ")", "RGBA(244, 202, 88, " + opacity + ")", "RGBA(167, 194, 68, " + opacity + ")", "RGBA(68, 131, 146, " + opacity + ")", "RGBA(158, 184, 254, " + opacity + ")", "RGBA(231, 154, 255, " + opacity + ")", "RGBA(186, 94, 232, " + opacity + ")", "RGBA(67, 40, 187, " + opacity + ")"],
         now = new Date(),
@@ -43,13 +44,24 @@ $(document).ready(function () {
         yesterday = monthNames[parseInt(now.getMonth(), 10) - 1] + " " + dayNumbers[parseInt(now.getMonth(), 10)];
     }
     
-    $('#date-entry').datepicker({ dateFormat: "MM d" });
-    $('#date-entry').datepicker("setDate", today);
+    $('#date-entry').datepicker({
+        dateFormat: "MM d",
+        showOtherMonths: true,
+        selectOtherMonths: true
+    });
     if (dayOfWeek === 1) {
         $('#date-entry').datepicker("setDate", friday);
     } else {
         $('#date-entry').datepicker("setDate", yesterday);
     }
+    
+    $('.date-yesterday').click(function () {
+        $('#date-entry').datepicker("setDate", yesterday);
+    });
+    
+    $('.date-today').click(function () {
+        $('#date-entry').datepicker("setDate", today);
+    });
     
     // I believe this is now redundant, but commenting out in case
 /*  $('#resultlist').on('click', '.toggle', function () {
@@ -86,10 +98,12 @@ $(document).ready(function () {
         $('.resultlist').html('');
         $('h2').html('');
         $('h3').html('');
+        u = 0;
         
         $('input[name="rawurl"]').val("");
         $('input[name="publication"]').val("");
         $('input[name="pagetitle"]').val("");
+        $('.overview').html('<tr class="table-row"><th>Title</th><th>Publisher</th><th>Status</th></tr>');
         
         $('#pagination').children().remove().end();
         $('#subject').children().remove().end();
@@ -97,7 +111,7 @@ $(document).ready(function () {
         urlarray = [];
         pubarray = [];
         titlearray = [];
-        completedarray = [];
+        completediconarray = [];
         
         $('.header').html("Wikimedia Foundation Media Report: " + monthNames[now.getMonth()] + " " + now.getDate() + ", " + now.getFullYear());
         $('.description').append("");
@@ -124,7 +138,7 @@ $(document).ready(function () {
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
-                        titleStripped = JSON.stringify(data).replace(/["']/g, "").replace(/\|.*/g, "");
+                        titleStripped = JSON.stringify(data).replace(/["']/g, "").replace(/\|.*/g, "").replace(/(\\t|\\n|\s\s|\\r)/g, "");
                         urlarray.push(fetchURL);
                         pubarray.push(websiteName);
                         titlearray.push(titleStripped);
@@ -136,7 +150,8 @@ $(document).ready(function () {
                 });
             }).then(function (index) {
                 console.log("Done URL ", e); // log it
-                completedarray.push("&#x2716;");
+                completedarray.push(false);
+                completediconarray.push("&#x2716;");
                 e = e + 1;
             }, function () {
                 return $.Deferred().resolve(); // suppress request failure
@@ -145,11 +160,11 @@ $(document).ready(function () {
         p.then(function () { // when all the actions are done
             $(".loading").fadeOut(); // when all done - fade out
             $("#form").removeClass('hidden');
-            $(".counter").html("<span class='completed'>" + completedarray[u] + "</span> Item ");
+            $(".counter").html("<span class='completed'>" + completediconarray[u] + "</span> Item ");
             $('input[name="rawurl"]').val(urlarray[0]);
             $('input[name="publication"]').val(pubarray[0]);
             $('input[name="pagetitle"]').val(titlearray[0]);
-            $(completedarray).each(function (index) {
+            $(completediconarray).each(function (index) {
                 $($('<option>', {
                     value: "page" + (index + 1),
                     text: index + 1
@@ -160,7 +175,16 @@ $(document).ready(function () {
                 text: "Enter a topic below!"
             })).appendTo('#subject').attr('selected', 'selected');
             $('#form').removeClass('hidden');
+            
+            $("#pagination").css("background", "#fff");
+            for (var i = 0; i < completediconarray.length; i++) {
+                $('.overview').append('<tr><td>' + titlearray[i] + '</td><td>' + pubarray[i] + '</td><td class="status">' + completediconarray[i] + '</td></tr>');
+            }
         });
+    });
+    
+    $('#overview-button').click(function () {
+        $('.overview').toggleClass('hidden');
     });
     
     $('#newTopic').click(function () {
@@ -195,9 +219,11 @@ $(document).ready(function () {
         $('input[name="rawurl"]').val(urlarray[newPage]);
         $('input[name="publication"]').val(pubarray[newPage]);
         $('input[name="pagetitle"]').val(titlearray[newPage]);
-        $(".counter").html("<span class='completed'>" + completedarray[newPage] + "</span> Item ");
-        if (completedarray[newPage] === "&#10004;") {
+        $(".counter").html("<span class='completed'>" + completediconarray[newPage] + "</span> Item ");
+        if (completediconarray[u] === "&#10004;") {
             $("#pagination").css("background", "#29BD00");
+        } else if (completediconarray[u] === "&#9716;") {
+            $("#pagination").css("background", "#c60");
         } else {
             $("#pagination").css("background", "#fff");
         }
@@ -216,26 +242,40 @@ $(document).ready(function () {
             newContext = $('input[name="context"]').val(),
             newDate = $('input[name="date-entry"]').val(),
             momentDate = moment(newDate, "MMMM D").dayOfYear(),
-            ifStatement = "." + newSubject,
+            ifStatement = ".date" + momentDate + " ~  ." + newSubject,
             newItem = "",
             random = Math.floor(Math.random() * 9);
         
-        if (newSubject === "enteratopic") {
+        if ($('input[name="newtopic"]').val() !== "") {
+            var newTopic = $('input[name="newtopic"]').val(),
+                topicTruncated = newTopic.replace(/\s+/g, '').toLowerCase();
+            topics.push(newTopic);
+            $($('<option>', {
+                value: topicTruncated,
+                text: newTopic
+            })).appendTo('#subject').attr('selected', 'selected');
+            newSubject = topicTruncated;
+            newSubjectText = newTopic;
+            $('input[name="newtopic"]').val("");
+        } else if (newSubject === "enteratopic") {
             alert("Please choose or add a topic/subject.");
             return false;
         }
         
-        completedarray[u] = "&#10004;";
-        $(".counter").html("<span class='completed'>" + completedarray[u] + "</span> Item ");
-        if (completedarray[u] === "&#10004;") {
+        completediconarray[u] = "&#10004;";
+        completedarray[u] = true;
+        $(".counter").html("<span class='completed'>" + completediconarray[u] + "</span> Item ");
+        if (completediconarray[u] === "&#10004;") {
             $("#pagination").css("background", "#29BD00");
+        } else if (completediconarray[u] === "&#9716;") {
+            $("#pagination").css("background", "#c60");
         } else {
             $("#pagination").css("background", "#fff");
         }
 
         if ($(".date" + momentDate)[0]) { //If there is this date already
             if ($(ifStatement)[0]) { //This is a related
-                $('.date' + momentDate + ' ~ ' + ifStatement).append("<li class='meta " + newSubject + " isrelated' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='related'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /></li>");
+                $(ifStatement).append("<li class='meta " + newSubject + " isrelated' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='related'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /></li>");
             } else {
                 $('.date' + momentDate).after("<div class='meta " + newSubject + "' style='background:" + colours[random] + "'><p class='deleteButton'>&#x2716;</p><span class='sectiontitle contenteditable' contenteditable='true'>" + newSubjectText + "<br/></span><span class='related hidden'>Related Stories:<br/></span><span class='entry contenteditable' contenteditable='true'>" + newPublication + " - " + newTitle + "<br/></span>" + newURL + "<br /><br /><ul class='context'><li class='contenteditable quote' contenteditable='true'>" + newContext + "<br/></li><br/></ul></div>");
                 $('.sortkey').append("<li class='sortitem' id='" + newSubject + "'><p>" + newSubjectText + "</p></li>");
@@ -249,25 +289,60 @@ $(document).ready(function () {
                 $('.sortkey').append("<li class='sortitem-date' id='" + momentDate + "'><p>" + newDate + "</p></li>").append("<li class='sortitem' id='" + newSubject + "'><p>" + newSubjectText + "</p></li>");
             }
         }
+        $('.status').eq(u).html("&#10004;");
         u = u + 1;
+        $(".overview tr:nth-child(" + (u + 1) + ")").css("background","#9AF500");
         if (u >= urlarray.length) {
             u = 0;
         }
         $('input[name="rawurl"]').val(urlarray[u]);
         $('input[name="publication"]').val(pubarray[u]);
         $('input[name="pagetitle"]').val(titlearray[u]);
-        $(".counter").html("<span class='completed'>" + completedarray[u] + "</span> Item ");
+        $('input[name="context"]').val("");
+        $(".counter").html("<span class='completed'>" + completediconarray[u] + "</span> Item ");
         $("#pagination").val("page" + (u + 1));
-        if (completedarray[u] === "&#10004;") {
+        if (completediconarray[u] === "&#10004;") {
             $("#pagination").css("background", "#29BD00");
+        } else if (completediconarray[u] === "&#9716;") {
+            $("#pagination").css("background", "#c60");
         } else {
             $("#pagination").css("background", "#fff");
         }
         var firstComplete = !!completedarray.reduce(function (a, b) { return (a === b) ? a : NaN; }); // From http://stackoverflow.com/a/21266395
         if (firstComplete === true) {
-            $(".counter").html("<span class='finished'>It looks like all URLs have been processed!</span><br/><span class='finished'>Hit \"copy to clipboard\" to finish.</span><br/><span class='completed'>" + completedarray[u] + "</span> Item ");
+            $(".counter").html("<span class='finished'>It looks like all URLs have been processed!</span><br/><span class='finished'>Hit \"copy to clipboard\" to finish.</span><br/><span class='completed'>" + completediconarray[u] + "</span> Item ");
         }
     });
+    
+    $('#ignore').click(function () {
+        completediconarray[u] = "&#9716;";
+        $('.status').eq(u).html("&#9716;");
+        completedarray[u] = true;
+        u = u + 1;
+        $(".overview tr:nth-child(" + (u + 1) + ")").css("background","#F5B42A");
+        if (u >= urlarray.length) {
+            u = 0;
+        }
+        $(".counter").html("<span class='completed'>" + completediconarray[u] + "</span> Item ");
+        $("#pagination").val("page" + (u + 1));
+        if (completediconarray[u] === "&#10004;") {
+            $("#pagination").css("background", "#29BD00");
+        } else if (completediconarray[u] === "&#9716;") {
+            $("#pagination").css("background", "#c60");
+        } else {
+            $("#pagination").css("background", "#fff");
+        }
+        $('input[name="rawurl"]').val(urlarray[u]);
+        $('input[name="publication"]').val(pubarray[u]);
+        $('input[name="pagetitle"]').val(titlearray[u]);
+        $('input[name="context"]').val("");
+        var firstComplete = !!completedarray.reduce(function (a, b) { return (a === b) ? a : NaN; }); // From http://stackoverflow.com/a/21266395
+        if (firstComplete === true) {
+            $(".counter").html("<span class='finished'>It looks like all URLs have been processed!</span><br/><span class='finished'>Hit \"copy to clipboard\" to finish.</span><br/><span class='completed'>" + completediconarray[u] + "</span> Item ");
+        }
+    });
+    
+    // SORTING CODE - NOT ACTIVE
     
     $(".sortkey").sortable({
         start: function (event, ui) {
@@ -286,10 +361,6 @@ $(document).ready(function () {
     }).disableSelection();
         
 });
-
-    
-
-
 
 function SelectText() { //this code from https://stackoverflow.com/questions/985272/selecting-text-in-an-element-akin-to-highlighting-with-your-mouse
     "use strict";
@@ -312,10 +383,11 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
         }
     });
     
-    $('.meta .related').slice(1).remove();
     $('.meta').each(function () {
         $(this).append("<br />");
+        $(this).find(".related").not(":first").remove();
     });
+    
     $('.toggle').remove();
     $('li').css({"font-size": "10pt"});
     $('div').css({"font-size": "10pt"});

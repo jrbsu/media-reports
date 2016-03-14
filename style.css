@@ -3,7 +3,7 @@
 }
 
 .date {
-	color:#CE0000;
+	color: #CE0000;
 	font-weight: 600;
     background: #ddd;
     padding: 0.3em 1em;
@@ -119,8 +119,6 @@ li.quote {
     width: 70%;
 }
 
-
-
 button {
 	background-color: #666;
 	-moz-border-radius: 15px;
@@ -131,9 +129,8 @@ button {
 	color: #ffffff;
 	font-weight: bold;
 	padding: 5px 10px;
-	text-decoration: none;
-    font-family: "Source Sans Pro", "Open Sans", sans-serif;
-    font-size: 9pt;
+    font-family: "Open Sans", "Source Sans Pro", sans-serif;
+    font-size: 8pt;
     width: 100%;
 }
     
@@ -155,7 +152,7 @@ button:active {
 .instructions {
     color: blueviolet;
     font-weight: 600;
-    font-family: "Source Sans Pro", "Open Sans", sans-serif;
+    font-family: "Open Sans", "Source Sans Pro", sans-serif;
     margin: 10px 0;
 }
 
@@ -168,10 +165,13 @@ button:active {
 
 .ui-widget {
     font-size: 0.8em;
+    font-family: 'Open Sans', 'Source Sans Pro', 'Arial', sans-serif;
+    width: 250px;
 }
 
 .ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default {
     background: #eee;
+    width: 80%;
 }
 
 .ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight {
@@ -179,7 +179,7 @@ button:active {
 }
 
 .ui-state-hover {
-    border: 1px solid #f0c!important;
+    background: #fd0!important;
 }
 #help {
     background: #c00;
@@ -201,7 +201,7 @@ button:active {
     left: 0;
     height: 100%;
     width: 100%;
-    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    font-family: "Open Sans", "Source Sans Pro", sans-serif;
     font-size: 11pt;
     overflow: scroll;
 }
@@ -232,7 +232,7 @@ ol {
     font-size: 8pt;
 }
 
-p a {
+a {
     text-decoration: none;
     color: black;
     background: rgba(44,255,255,0.1);
@@ -240,7 +240,7 @@ p a {
     overflow: hidden;
 }
 
-p a:hover {
+a:hover {
     z-index: 100;
     background: #00b7ff;
     color: white;
@@ -261,7 +261,7 @@ p a:hover {
     position: absolute;
     top: 1em;
     right: 1em;
-    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    font-family: "Open Sans", "Source Sans Pro", sans-serif;
     display: none;
 }
 
@@ -292,8 +292,6 @@ p a:hover {
     padding: 3px;
 }
 
-
-
 .formbutton2 {
     width: 20%;
     float: right;
@@ -301,7 +299,7 @@ p a:hover {
 }
 
 .counter-wrapper {
-    padding: 1rem;
+    padding: 1rem 0;
     text-align: right;
 }
 
@@ -312,6 +310,7 @@ p a:hover {
 
 #addNew {
     background: #3b0;
+    width: 80%;
 }
 
 .lastformentry {
@@ -367,7 +366,7 @@ p a:hover {
     left: 0;
     height: 100%;
     width: 100%;
-    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    font-family: "Open Sans", "Source Sans Pro", sans-serif;
     font-size: 11pt;
     overflow: scroll;
 }
@@ -398,4 +397,43 @@ p a:hover {
 .sortitem-date {
     font-weight: 600;
     color: #600;
+}
+#ignore {
+    width: 20%;
+    float: none;
+    background: #C60;
+}
+
+.quick-date {
+    font-size: 80%;
+    background: rgba(255,255,44,0.1);
+    cursor: pointer;
+}
+
+.quick-date:hover {
+    background: rgba(255,255,44,1);
+    color: black;
+}
+
+.overview {
+    background: #fff;
+    border: 3px solid #f83;
+    width: 100%;
+}
+
+table {
+    font-size: 80%;
+}
+
+td {
+    padding: 5px;
+}
+
+td.status {
+    text-align: center;
+}
+#overview-button {
+    width: 5rem;
+    background: #f83;
+    float: left;
 }

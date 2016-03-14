@@ -3,9 +3,12 @@
 <head>
 	<title>Media Report simplifier</title>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
-<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/tinysort/2.2.4/tinysort.js"></script>
     <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css">
+    
 	<script src="newscript.js"></script>
 	<script src="moment.js"></script>
 	<link rel="stylesheet" type="text/css" href="style.css">
@@ -23,7 +26,7 @@
             <br /><br />
         </div>
         <div class="buttons">
-            <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.<br/><br/>You're looking at <strong>Version 2.3</strong></p>
+            <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.<br/><br/>You're looking at <strong>Version 2.4</strong></p>
         </div>
         <div class="loading">Loading...</div>
 	</div>
@@ -48,7 +51,7 @@
                 <input class="answer" name="pagetitle">
             </div>
             <div class="formentry">
-                <label class="question" for="date-entry">Date:&nbsp;</label>
+                <label class="question" for="date-entry">Date:&nbsp;<!--(<a class="quick-date date-yesterday">yesterday</a> / <a class="quick-date date-yesterday">today</a>)--></label>
                 <input class="answer" id="date-entry" name="date-entry">
             </div>
             <div class="formentry"><label class="question" for="subject">Subject/Topic:&nbsp;</label>
@@ -58,24 +61,28 @@
             <div class="formentry" style="margin: 0 0 0 2em;">
                 <label class="question" for="newtopic">Add new:&nbsp;</label>
                 <input class="answer" name="newtopic" style="width: 50%;">
-                            <button class="formbutton2" id="newTopic">Add topic</button>
-
+                <button class="formbutton2" id="newTopic">Add topic</button>
             </div>
-            <!-- <div class="formentry"><label class="question" for="nonenglish">Not English?</label><input type="checkbox" name="nonenglish" id="nonenglish" value="other"></div>
-            <div class="formentry"><label class="question" for="language">Language:&nbsp;</label><input class="answer" name="language"></div> -->
             <div class="formentry lastformentry">
                 <label class="question" for="context">Context/quote:&nbsp;</label>
                 <input class="answer" name="context">
             </div>
             
-            <button class="formbutton" id="addNew">Add to results</button>
-            
+            <button class="formbutton" id="addNew">Add to results</button><button class="formbutton" id="ignore">Skip</button>
             <div class="counter-wrapper">
+                <button class="formbutton" id="overview-button">Overview</button>
                 <button class="formbutton" id="sort">Sort</button>
                 <span class="counter"></span>
                 <select class="pagination" name="pagination" id="pagination">
-                </select></div>
-            
+                </select>
+            </div>
+            <table class="overview hidden">
+                <tr class="table-row">
+                    <th>Title</th>
+                    <th>Publisher</th>
+                    <th>Status</th>
+                </tr>
+            </table>
         </div>
 
         <h2 class="header"></h2>
