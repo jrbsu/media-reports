@@ -376,9 +376,7 @@ function SelectText() { //this code from https://stackoverflow.com/questions/985
     
     $('#form').addClass('hidden');
     
-    if (reportSummary == "") {
-        reportSummary = prompt("Please enter a description to go underneath the date on this media report.");
-    }
+    reportSummary = prompt("Please enter a description to go underneath the date on this media report.");
     
     $('.quote').each(function () {
         if ($(this).html() === "<br>") {
