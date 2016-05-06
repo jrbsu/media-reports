@@ -61,7 +61,7 @@ li.quote {
     margin-left: 1em;
 }
 
-.related {
+span.related {
     text-decoration: underline;
 }
 
