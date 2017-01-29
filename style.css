@@ -235,7 +235,7 @@ ol {
 a {
     text-decoration: none;
     color: black;
-    background: rgba(44,255,255,0.1);
+    background: rgba(44,255,255,0.3);
     padding: 2px;
     overflow: hidden;
 }
@@ -244,6 +244,12 @@ a:hover {
     z-index: 100;
     background: #00b7ff;
     color: white;
+    text-decoration: none;
+}
+
+a.article-link {
+    color: red;
+    text-decoration: underline;
 }
 
 .helpbox-content {
