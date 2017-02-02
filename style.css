@@ -248,8 +248,10 @@ a:hover {
 }
 
 a.article-link {
-    color: red;
+    color: #15c;
     text-decoration: underline;
+    background: none;
+    padding: 0;
 }
 
 .helpbox-content {
