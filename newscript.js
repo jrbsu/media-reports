@@ -128,7 +128,7 @@ $(document).ready(function () {
             var fetchURL = this,
                 daction = "title",
                 newURL = fetchURL.replace(reHTTP, ""),
-                websiteName = newURL.replace(website, "").replace(trim, ""),\
+                websiteName = newURL.replace(website, "").replace(trim, ""),
                 postdata = { action: daction, url: newURL };
             p = p.then(function () {
                 return $.ajax({
