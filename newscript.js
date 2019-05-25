@@ -134,7 +134,7 @@ $(document).ready(function () {
                 return $.ajax({
                     type: "POST",
  //                 async: false, (Well, maybe....)
-                    url: "https://testwiki.jamesryanalexander.com/meta/getmeta.php",
+                    url: "getmetadata/getmeta.php",
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
