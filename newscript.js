@@ -19,6 +19,7 @@ $(document).ready(function () {
         website = new RegExp("www."),
         trim = new RegExp("\/.*"),
         topics = [],
+        e = 0, //used in loop
         i = 0,
         u = 0,
         y = 0,
@@ -127,8 +128,7 @@ $(document).ready(function () {
             var fetchURL = this,
                 daction = "title",
                 newURL = fetchURL.replace(reHTTP, ""),
-                websiteName = newURL.replace(website, "").replace(trim, ""),
-                e = 0,
+                websiteName = newURL.replace(website, "").replace(trim, ""),\
                 postdata = { action: daction, url: newURL };
             p = p.then(function () {
                 return $.ajax({
@@ -154,10 +154,10 @@ $(document).ready(function () {
 				    }
                 });
             }).then(function (index) {
+                e = e + 1;
                 console.log("Done URL ", e); // log it
                 completedarray.push(false);
                 completediconarray.push("&#x2716;");
-                e = e + 1;
             }, function () {
                 return $.Deferred().resolve(); // suppress request failure
             });
