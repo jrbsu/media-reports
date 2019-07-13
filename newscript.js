@@ -140,7 +140,7 @@ $(document).ready(function () {
             p = p.then(function () {
                 return $.ajax({
                     type: "POST",
-                    url: "http://joesutherland.rocks/media-reports/getmetadata/getmeta.php",
+                    url: "https://tools.wmflabs.org/media-reports/getmetadata/getmeta.php",
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
