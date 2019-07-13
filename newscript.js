@@ -141,7 +141,8 @@ $(document).ready(function () {
                 return $.ajax({
                     type: "POST",
  //                 async: false, (Well, maybe....)
-                    url: "https://tools.wmflabs.org/media-reports/getmetadata/getmeta.php",
+ //                 url: "https://tools.wmflabs.org/media-reports/getmetadata/getmeta.php",
+                    url: "https://joesutherland.rocks/media-reports/getmetadata/getmeta.php",
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
