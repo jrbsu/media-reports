@@ -445,3 +445,23 @@ td.status {
     background: #f83;
     float: left;
 }
+
+.loadbar {
+    width: 0%;
+    background: #444;
+}
+
+.errorlog-entry {
+    text-align: left;
+    font-family: "Source Sans Pro", "Open Sans", "Arial", sans-serif;
+    font-size: 8pt;
+    padding: 0 1em;
+}
+
+#errorlog {
+    height: 200px;
+    background: #fff;
+    overflow: scroll;
+}
+
+

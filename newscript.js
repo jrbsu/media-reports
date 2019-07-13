@@ -1,5 +1,5 @@
 /*jslint browser: true*/
-/*global $, jQuery, alert, console, moment*/
+/*global $, jQuery, alert, console, moment, window, document*/
 $(document).ready(function () {
     "use strict";
     
@@ -19,8 +19,8 @@ $(document).ready(function () {
         website = new RegExp("www."),
         trim = new RegExp("\/.*"),
         topics = [],
-        e = 0, //used in loop
         i = 0,
+        sessions = 0,
         u = 0,
         y = 0,
         urlarray = [], // need this
@@ -86,6 +86,7 @@ $(document).ready(function () {
     });
     
     $('#go').click(function () {
+        var currentItem = 0;
         if (clicked === true) {
             var r = window.confirm("This will erase what you've already done!\n\nAre you sure?");
             if (r === false) {
@@ -93,7 +94,10 @@ $(document).ready(function () {
             }
         }
         clicked = true;
+        sessions++;
         $('#copy').prop('disabled', false).removeClass('disabled');
+        $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: purple;'>Session number " + sessions + " started!</span>")
+
         
         //inits
         $('.resultlist').html('');
@@ -124,12 +128,15 @@ $(document).ready(function () {
             postdata = "",
             titleStripped = "";
         
-		$(urls).each(function () {
+        $('#errorlog').removeClass('hidden');
+        
+		$(urls).each(function (index) {
             var fetchURL = this,
                 daction = "title",
                 newURL = fetchURL.replace(reHTTP, ""),
                 websiteName = newURL.replace(website, "").replace(trim, ""),
                 postdata = { action: daction, url: newURL };
+            currentItem = currentItem + 1;
             p = p.then(function () {
                 return $.ajax({
                     type: "POST",
@@ -143,19 +150,22 @@ $(document).ready(function () {
                             .replace(/\"/g, "")
                             .replace(/\\/g, "\"")
                             .replace(/\|.*/g, "")
+                            .replace(/\|.*/g, "")
                             .replace(/(\\t|\\n|\s\s|\\r)/g, "");
                         urlarray.push(fetchURL);
                         pubarray.push(websiteName);
                         titlearray.push(titleStripped);
                     },
                     error: function (data) {
-                        console.log("Error!");
+                        console.log("Error fetching URL " + (index + 1) + " (" + urls[index] + "). Perhaps the internet is unreachable.");
+                        $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: red;'>Error</span> fetching URL " + (index + 1) + " (" + urls[index] + "). Perhaps the internet is unreachable, or there was a problem accessing the PHP data. See the console for more info.</ul>")
 				        console.log(data);
-				    }
+                    }
                 });
             }).then(function (index) {
-                e = e + 1;
-                console.log("Done URL ", e); // log it
+                console.log("Done URL ", currentItem + " (" + titleStripped + ")"); // log it
+                $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: green;'>Done</span> fetching URL " + (index + 1) + " (" + urls[index] + ")!</ul>")
+                $('.loadbar').css("width", currentItem / urls.length+"%");
                 completedarray.push(false);
                 completediconarray.push("&#x2716;");
             }, function () {

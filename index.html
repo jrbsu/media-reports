@@ -17,7 +17,11 @@
         <div class="instructions">
 			Paste your urls here &darr;
 		</div>
-		<textarea name="urls"></textarea>
+		<textarea name="urls">https://www.bbc.com/sport/cycling/48967872
+https://www.bbc.com/sport/football/48967047
+https://www.bbc.com/sport/cricket/48963094
+https://www.bbc.com/sport/tennis/48965344
+https://www.bbc.com/sport/formula1/48967682</textarea>
         <div class="buttons">
             <button id="go">Go!</button><br/>
             <button id="copy" onclick="SelectText()" disabled class="disabled">Copy to clipboard</button><br/>
@@ -25,9 +29,20 @@
             <br /><br />
         </div>
         <div class="buttons">
-            <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.<br/><br/>PHP code by <a href="https://jamesryanalexander.com">James Alexander</a>, released under an <a href="http://opensource.org/licenses/MIT">MIT license</a>.<br/><br/>You're looking at <strong>Version 2.7</strong></p>
+            <p class="credit">A tool by <a href="http://joesutherland.rocks/">Joe Sutherland</a>.<br/>Released under <a href="https://creativecommons.org/licenses/by-sa/4.0/">CC-BY-SA 4.0</a>.<br/><br/>PHP code by <a href="https://jamesryanalexander.com">James Alexander</a>, released under an <a href="http://opensource.org/licenses/MIT">MIT license</a>.<br/><br/>You're looking at <strong>Version 2.8</strong></p>
         </div>
-        <div class="loading">Loading...</div>
+        
+        <div class="buttons hidden" id="errorlog">
+            <p class="errorlog-entry"><strong>Error log:</strong></p>
+            <div id="errorlog-content"></div>
+        </div>
+        <div class="loading">
+            Loading...&nbsp;
+            <div class="loadbarholder">
+                <div class="loadbar">&nbsp;
+                </div>
+            </div>
+        </div>
 	</div>
     <div class="sort-wrapper">
         <p>Current order:</p>
