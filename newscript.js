@@ -140,7 +140,8 @@ $(document).ready(function () {
             p = p.then(function () {
                 return $.ajax({
                     type: "POST",
-                    url: "https://tools.wmflabs.org/media-reports/getmetadata/getmeta.php",
+ //                 async: false, (Well, maybe....)
+                    url: "https://media-reports.toolforge.org/getmetadata/getmeta.php",
                     data: postdata,
                     dataType: 'json',
                     success: function (data) {
@@ -162,8 +163,8 @@ $(document).ready(function () {
                     }
                 });
             }).then(function (index) {
-                console.log("Done URL " + currentItem + " (" + titleStripped + ")"); // log it
-                $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: green;'>Done</span> fetching URL " + currentItem + " (" + titleStripped + ")!</ul>")
+                console.log("Done URL ", currentItem + " (" + titleStripped + ")"); // log it
+                $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: green;'>Done</span> fetching URL " + (index + 1) + " (" + urls[index] + ")!</ul>")
                 $('.loadbar').css("width", currentItem / urls.length+"%");
                 completedarray.push(false);
                 completediconarray.push("&#x2716;");
