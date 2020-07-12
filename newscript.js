@@ -162,8 +162,8 @@ $(document).ready(function () {
                     }
                 });
             }).then(function (index) {
-                console.log("Done URL ", currentItem + " (" + titleStripped + ")"); // log it
-                $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: green;'>Done</span> fetching URL " + (index + 1) + " (" + urls[index] + ")!</ul>")
+                console.log("Done URL " + currentItem + " (" + titleStripped + ")"); // log it
+                $('#errorlog-content').prepend("<ul class='errorlog-entry'><span style='font-weight: 700; color: green;'>Done</span> fetching URL " + currentItem + " (" + titleStripped + ")!</ul>")
                 $('.loadbar').css("width", currentItem / urls.length+"%");
                 completedarray.push(false);
                 completediconarray.push("&#x2716;");
